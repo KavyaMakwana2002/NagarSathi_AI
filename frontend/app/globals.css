@@ -1,0 +1,203 @@
+@import "tailwindcss";
+
+:root {
+  --bg-page: #070c18;
+  --bg-card: #0f172a;
+  --bg-card-hover: #1e293b;
+  --bg-input: #020617;
+  --border-main: #1e293b;
+  --text-main: #f8fafc;
+  --text-sub: #94a3b8;
+  --header-bg: rgba(15, 23, 42, 0.92);
+}
+
+html.light,
+html[data-theme="light"] {
+  --bg-page: #f1f5f9;
+  --bg-card: #ffffff;
+  --bg-card-hover: #f8fafc;
+  --bg-input: #ffffff;
+  --border-main: #e2e8f0;
+  --text-main: #0f172a;
+  --text-sub: #475569;
+  --header-bg: rgba(255, 255, 255, 0.95);
+}
+
+body {
+  background-color: var(--bg-page);
+  color: var(--text-main);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans Gujarati", sans-serif;
+  transition: background-color 0.25s ease, color 0.25s ease, font-size 0.25s ease;
+  overflow-x: hidden;
+  min-height: 100vh;
+}
+
+/* ====================================================
+   LIGHT THEME OVERRIDES (Transforms entire website into clean Light Mode)
+   ==================================================== */
+
+html.light body,
+html[data-theme="light"] body {
+  background-color: #f8fafc !important;
+  color: #0f172a !important;
+}
+
+/* Headers & Navigation */
+html.light header,
+html[data-theme="light"] header {
+  background-color: rgba(255, 255, 255, 0.95) !important;
+  border-bottom-color: #e2e8f0 !important;
+  color: #0f172a !important;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.05) !important;
+}
+
+html.light nav.fixed,
+html[data-theme="light"] nav.fixed {
+  background-color: rgba(255, 255, 255, 0.95) !important;
+  border-top-color: #e2e8f0 !important;
+  box-shadow: 0 -4px 20px -2px rgba(0, 0, 0, 0.05) !important;
+}
+
+/* Hero Section Gradient in Light Mode */
+html.light section.bg-gradient-to-b,
+html[data-theme="light"] section.bg-gradient-to-b {
+  background: linear-gradient(180deg, #e0f2fe 0%, #f1f5f9 60%, #f8fafc 100%) !important;
+  border-bottom-color: #e2e8f0 !important;
+}
+
+/* Cards & Surfaces */
+html.light .bg-slate-900,
+html.light .bg-slate-900\/90,
+html.light .bg-slate-900\/80,
+html.light .bg-slate-900\/60,
+html.light .bg-slate-900\/40,
+html[data-theme="light"] .bg-slate-900,
+html[data-theme="light"] .bg-slate-900\/90,
+html[data-theme="light"] .bg-slate-900\/80,
+html[data-theme="light"] .bg-slate-900\/60,
+html[data-theme="light"] .bg-slate-900\/40 {
+  background-color: #ffffff !important;
+  border-color: #e2e8f0 !important;
+  color: #0f172a !important;
+  box-shadow: 0 4px 15px -1px rgba(0, 0, 0, 0.04), 0 2px 6px -2px rgba(0, 0, 0, 0.04) !important;
+}
+
+html.light .bg-slate-950,
+html.light .bg-slate-950\/80,
+html.light .bg-slate-950\/70,
+html.light .bg-slate-950\/60,
+html[data-theme="light"] .bg-slate-950,
+html[data-theme="light"] .bg-slate-950\/80,
+html[data-theme="light"] .bg-slate-950\/70,
+html[data-theme="light"] .bg-slate-950\/60 {
+  background-color: #f1f5f9 !important;
+  border-color: #e2e8f0 !important;
+  color: #0f172a !important;
+}
+
+html.light .bg-slate-800,
+html.light .bg-slate-800\/80,
+html.light .bg-slate-800\/60,
+html.light .bg-slate-800\/50,
+html[data-theme="light"] .bg-slate-800,
+html[data-theme="light"] .bg-slate-800\/80,
+html[data-theme="light"] .bg-slate-800\/60,
+html[data-theme="light"] .bg-slate-800\/50 {
+  background-color: #f8fafc !important;
+  border-color: #e2e8f0 !important;
+  color: #1e293b !important;
+}
+
+/* Inputs, Textareas, Selects */
+html.light input,
+html.light textarea,
+html.light select,
+html[data-theme="light"] input,
+html[data-theme="light"] textarea,
+html[data-theme="light"] select {
+  background-color: #ffffff !important;
+  border-color: #cbd5e1 !important;
+  color: #0f172a !important;
+}
+
+html.light input::placeholder,
+html.light textarea::placeholder,
+html[data-theme="light"] input::placeholder,
+html[data-theme="light"] textarea::placeholder {
+  color: #94a3b8 !important;
+}
+
+/* Borders */
+html.light .border-slate-800,
+html.light .border-slate-800\/80,
+html.light .border-slate-700,
+html.light .border-slate-700\/60,
+html[data-theme="light"] .border-slate-800,
+html[data-theme="light"] .border-slate-800\/80,
+html[data-theme="light"] .border-slate-700,
+html[data-theme="light"] .border-slate-700\/60 {
+  border-color: #e2e8f0 !important;
+}
+
+/* Texts in Light Mode */
+html.light .text-white,
+html.light .text-slate-100,
+html[data-theme="light"] .text-white,
+html[data-theme="light"] .text-slate-100 {
+  color: #0f172a !important;
+}
+
+html.light .text-slate-200,
+html.light .text-slate-300,
+html[data-theme="light"] .text-slate-200,
+html[data-theme="light"] .text-slate-300 {
+  color: #334155 !important;
+}
+
+html.light .text-slate-400,
+html.light .text-slate-500,
+html[data-theme="light"] .text-slate-400,
+html[data-theme="light"] .text-slate-500 {
+  color: #64748b !important;
+}
+
+/* Accent badges in light mode */
+html.light .bg-cyan-950,
+html.light .bg-cyan-950\/80,
+html.light .bg-cyan-950\/60,
+html[data-theme="light"] .bg-cyan-950,
+html[data-theme="light"] .bg-cyan-950\/80,
+html[data-theme="light"] .bg-cyan-950\/60 {
+  background-color: #ecfeff !important;
+  border-color: #a5f3fc !important;
+  color: #0e7490 !important;
+}
+
+html.light .bg-red-950\/20,
+html[data-theme="light"] .bg-red-950\/20 {
+  background-color: #fef2f2 !important;
+  border-color: #fecaca !important;
+}
+
+html.light .bg-cyan-950\/20,
+html[data-theme="light"] .bg-cyan-950\/20 {
+  background-color: #ecfeff !important;
+  border-color: #cffafe !important;
+}
+
+/* ====================================================
+   LEAFLET GIS MAP STYLING & ANIMATIONS
+   ==================================================== */
+@import "leaflet/dist/leaflet.css";
+
+.leaflet-container {
+  width: 100%;
+  height: 100%;
+  font-family: inherit;
+}
+
+.custom-civic-marker {
+  background: transparent !important;
+  border: none !important;
+}
+

@@ -1,0 +1,38 @@
+# Environments & Secret Keys
+.env
+.env.local
+.env.*.local
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+venv/
+ENV/
+*.db-journal
+
+# Next.js & Node
+node_modules/
+frontend/node_modules/
+.next/
+frontend/.next/
+out/
+build/
+dist/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Demo Assets Allowed, ignore runtime uploads
+backend/uploads/*.tmp
+!backend/uploads/pothole_*.jpg
+!backend/uploads/garbage_*.jpg
+!backend/uploads/.gitkeep
+!frontend/public/uploads/*
+
+# IDE & OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
