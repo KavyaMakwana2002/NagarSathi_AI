@@ -24,11 +24,11 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
-# Demo Assets Allowed, ignore runtime uploads
+# Uploads (Keep demo assets, ignore runtime user uploads)
 backend/uploads/*.tmp
+!backend/uploads/.gitkeep
 !backend/uploads/pothole_*.jpg
 !backend/uploads/garbage_*.jpg
-!backend/uploads/.gitkeep
 !frontend/public/uploads/*
 
 # IDE & OS

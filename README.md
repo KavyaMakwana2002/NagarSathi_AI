@@ -15,23 +15,23 @@ Powered by **Google Gemini Multimodal AI**, the platform instantly categorizes t
 
 ## 🌟 Key Innovations for Hackathon Judges (100 Points Evaluation)
 
-1. **AI Duplicate Detection & Ticket Clustering (Innovation & Originality - 20 pts):**
-   - When multiple citizens report the same pothole on the same road, NagarSathi AI clusters them under a single parent ticket and boosts urgency, eliminating municipal backlogs.
-2. **Interactive Civic Heatmap (GIS Geospatial Hazard Zones):**
+1. **Interactive Civic Heatmap (GIS Geospatial Hazard Zones - Innovation & Originality):**
    - Leaflet & OpenStreetMap geospatial mapping plotting red/amber/green civic hazard zones across Gujarat/Ahmedabad wards with category filters.
-3. **Gemini Vision AI – Before & After Photo Verification:**
-   - Multimodal photo verification on uploaded issues + interactive Before-and-After image slider for resolved complaints.
-4. **WhatsApp AI Civic Bot (Social Impact):**
-   - Digital inclusion enabling elderly and daily-wage citizens to report civic issues natively over WhatsApp in Gujarati with automated ticket creation.
-5. **Bilingual Gujarati Voice-to-Text Support (Problem Relevance - 20 pts):**
+2. **Gemini Vision AI – Before & After Photo Verification:**
+   - Multimodal photo verification on uploaded issues + interactive Before-and-After image slider for resolved complaints with officer proof upload.
+3. **WhatsApp AI Civic Bot (Social Impact & Digital Inclusion):**
+   - Enables elderly and daily-wage citizens to report civic issues natively over WhatsApp in Gujarati with automated ticket creation.
+4. **AI Duplicate Detection & Ticket Clustering:**
+   - Clusters identical complaints in the same locality under a single parent ticket and boosts urgency, eliminating municipal backlogs.
+5. **Bilingual Gujarati Voice-to-Text Support (Problem Relevance):**
    - Digital inclusion for citizens who speak Gujarati; speech-to-text recognition converts speech into complaints.
-6. **Decoupled Cloud Architecture (Technical Implementation - 25 pts):**
+6. **Decoupled Cloud Architecture (Technical Implementation):**
    - **Frontend (Vercel):** Next.js 14 + React + Tailwind CSS with dark/light themes and bilingual translation context.
    - **Backend (Render):** Python Flask REST API with Google Gemini 1.5 Multimodal AI engine and SQLite persistence.
-7. **Transparent Governance (Potential Impact - 20 pts):**
+7. **Transparent Governance (Potential Impact):**
    - Real-time resolution timeline tracking for citizens; KPI analytics and status management for Municipal Officers.
-8. **Ready Live Demo (Presentation - 15 pts):**
-   - Demo credentials for judges (`admin` / `admin123` & `9876543210` / `123456`).
+8. **Ready Live Demo (Presentation):**
+   - Pre-configured demo login for judges (`admin` / `admin123` & `9876543210` / `123456`).
 
 ---
 
