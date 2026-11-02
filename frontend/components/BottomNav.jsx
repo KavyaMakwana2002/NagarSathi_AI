@@ -1,5 +1,6 @@
 "use client";
 
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Home, PlusCircle, Search, LayoutDashboard, Settings, User, LogIn, LogOut } from "lucide-react";
@@ -7,8 +8,19 @@ import { useSettings } from "@/context/SettingsContext";
 
 export default function BottomNav() {
   const pathname = usePathname();
-  const { openSettings, t, authRole, logout, lang, mounted } = useSettings();
-  const effectiveRole = mounted ? authRole : "guest";
+  const { openSettings, t, authRole, logout, lang } = useSettings();
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  // Return null during SSR and initial hydration to guarantee zero mismatch
+  if (!mounted) {
+    return null;
+  }
+
+  const effectiveRole = authRole || "guest";
 
   return (
     <nav className="lg:hidden fixed bottom-0 left-0 right-0 z-50 bg-slate-900/95 backdrop-blur-lg border-t border-slate-800 px-2 py-1.5 shadow-2xl" suppressHydrationWarning>

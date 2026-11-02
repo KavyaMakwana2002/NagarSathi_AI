@@ -7,10 +7,18 @@ import {
 } from "lucide-react";
 import { useSettings } from "@/context/SettingsContext";
 
+import React, { useState, useEffect } from "react";
+
 export default function Navbar() {
   const router = useRouter();
   const pathname = usePathname();
-  const { openSettings, t, authRole, currentUser, logout, lang, mounted } = useSettings();
+  const { openSettings, t, authRole, currentUser, logout, lang } = useSettings();
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
   const effectiveRole = mounted ? authRole : "guest";
 
   const handleLogout = () => {
