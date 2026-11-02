@@ -192,7 +192,17 @@ export const TRANSLATIONS = {
       legendMed: "પીળો/કેસરી: સામાન્ય સંવેદનશીલ (Medium)",
       legendResolved: "લીલો: સફળતાપૂર્વક ઉકેલાયેલ (Resolved)",
       trackIssue: "સમસ્યા ટ્રેક કરો",
-      aiSummary: "AI વોર્ડ વિશ્લેષણ: નવરંગપુરા અને સેટેલાઇટમાં સૌથી વધુ ખાડાના ક્લસ્ટર મળી આવ્યા છે."
+      aiSummary: "AI વોર્ડ વિશ્લેષણ: નવરંગપુરા અને સેટેલાઇટમાં સૌથી વધુ ખાડાના ક્લસ્ટર મળી આવ્યા છે.",
+      mapEngine: "મેપ લેયર:",
+      googleRoadmap: "ગૂગલ મેપ્સ (Roadmap)",
+      googleSatellite: "ગૂગલ સેટેલાઇટ 4K (Satellite)",
+      googleTerrain: "ગૂગલ ભૂપ્રદેશ (Terrain)",
+      googleTraffic: "લાઇવ ટ્રાફિક (Live Traffic)",
+      darkBasemap: "ડાર્ક મોડ (Dark)",
+      navigateGoogle: "ગૂગલ મેપ્સમાં નેવિગેટ કરો (Directions)",
+      streetView: "ગૂગલ સ્ટ્રીટ વ્યૂ (360°)",
+      openGoogleMaps: "ગૂગલ મેપ્સમાં ખોલો",
+      heatCloudToggle: "હીટ ક્લાઉડ ઝોન"
     },
     // Gemini Vision Verification & Before-After Slider
     vision: {
@@ -420,7 +430,17 @@ export const TRANSLATIONS = {
       legendMed: "Amber: Moderate Urgency",
       legendResolved: "Green: Successfully Resolved",
       trackIssue: "Track Problem",
-      aiSummary: "AI Ward Insight: High density pothole clusters detected in Ward 7 Navrangpura and Satellite."
+      aiSummary: "AI Ward Insight: High density pothole clusters detected in Ward 7 Navrangpura and Satellite.",
+      mapEngine: "Map Layer:",
+      googleRoadmap: "Google Maps (Roadmap)",
+      googleSatellite: "Google Satellite 4K (Hybrid)",
+      googleTerrain: "Google Terrain",
+      googleTraffic: "Google Live Traffic",
+      darkBasemap: "Dark Command Basemap",
+      navigateGoogle: "Navigate via Google Maps",
+      streetView: "Google Street View (360°)",
+      openGoogleMaps: "Open in Google Maps",
+      heatCloudToggle: "Heat Density Cloud"
     },
     // Gemini Vision Verification & Before-After Slider
     vision: {

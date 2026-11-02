@@ -5,7 +5,8 @@ import { useParams } from "next/navigation";
 import Link from "next/link";
 import { 
   ArrowLeft, Clock, CheckCircle2, AlertCircle, 
-  MapPin, Sparkles, Calendar, ShieldCheck, Image as ImageIcon 
+  MapPin, Sparkles, Calendar, ShieldCheck, Image as ImageIcon,
+  Car, Compass, ExternalLink 
 } from "lucide-react";
 import { trackComplaints } from "@/lib/api";
 import StatusBadge from "@/components/StatusBadge";
@@ -192,6 +193,51 @@ function TrackByIdContent() {
                     {complaint.status === "Resolved" ? t("track", "resolvedState") : t("track", "inProgressState")}
                   </p>
                 </div>
+              </div>
+            </div>
+
+            {/* Google Maps Real-time Navigation & GIS Integration */}
+            <div className="p-3.5 rounded-2xl bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-slate-900 dark:to-slate-900 border border-blue-200/70 dark:border-slate-800 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+              <div className="flex items-center space-x-2.5">
+                <div className="p-2 rounded-xl bg-blue-600 text-white shadow-md shadow-blue-500/20">
+                  <Compass className="w-4 h-4 animate-spin-slow" />
+                </div>
+                <div>
+                  <div className="text-xs font-bold text-slate-900 dark:text-white flex items-center space-x-1.5">
+                    <span>{lang === "gu" ? "ગૂગલ મેપ્સ GPS નેવિગેશન" : "Google Maps Live GPS"}</span>
+                    <span className="text-[10px] px-1.5 py-0.2 rounded bg-emerald-100 text-emerald-700 dark:bg-emerald-950 dark:text-emerald-300 font-semibold">
+                      Live GIS
+                    </span>
+                  </div>
+                  <p className="text-[11px] text-slate-500 dark:text-slate-400">
+                    {lang === "gu" ? "સમસ્યાના ચોક્કસ સ્થળ સુધી સીધા પહોંચવા માટે ગૂગલ નેવિગેશન ખોલો" : "Launch Google Maps turn-by-turn driving routing to this issue"}
+                  </p>
+                </div>
+              </div>
+
+              <div className="flex items-center space-x-2 shrink-0">
+                <a
+                  href={
+                    complaint.latitude && complaint.longitude
+                      ? `https://www.google.com/maps/dir/?api=1&destination=${complaint.latitude},${complaint.longitude}`
+                      : `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(complaint.area + " Ahmedabad Gujarat")}`
+                  }
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="px-3 py-1.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold flex items-center space-x-1.5 shadow-md shadow-blue-500/20 transition"
+                >
+                  <Car className="w-3.5 h-3.5" />
+                  <span>{lang === "gu" ? "નેવિગેટ કરો" : "Navigate"}</span>
+                  <ExternalLink className="w-3 h-3 opacity-70" />
+                </a>
+
+                <Link
+                  href="/heatmap"
+                  className="px-3 py-1.5 rounded-xl bg-white dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-slate-700 text-xs font-bold flex items-center space-x-1 transition"
+                >
+                  <MapPin className="w-3.5 h-3.5 text-red-500" />
+                  <span>{lang === "gu" ? "હીટમેપ પર જુઓ" : "Civic Heatmap"}</span>
+                </Link>
               </div>
             </div>
 
