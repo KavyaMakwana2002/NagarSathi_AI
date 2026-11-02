@@ -241,4 +241,21 @@ html[data-theme="light"] .bg-cyan-950\/20 {
   border: 1px solid rgba(226, 232, 240, 0.8);
 }
 
+/* ====================================================
+   HIDE NEXT.JS DEV ISSUES BADGE & OVERLAY
+   ==================================================== */
+nextjs-portal,
+#nextjs-dev-indicator,
+[data-nextjs-dialog-overlay],
+[data-nextjs-toast],
+div[data-nextjs-toast-wrapper],
+div[data-nextjs-dialog],
+aside[aria-label="Issues"] {
+  display: none !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+  opacity: 0 !important;
+}
+
+
 
