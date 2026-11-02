@@ -185,29 +185,12 @@ export default function AdminDashboardPage() {
           </Link>
 
           <button
-            onClick={openSettings}
-            className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-cyan-400 text-xs font-semibold border border-slate-700 transition"
-            title="Open Settings"
-          >
-            <Settings className="w-3.5 h-3.5" />
-            <span>{t("nav", "settings")}</span>
-          </button>
-
-          <button
             onClick={loadData}
             disabled={loading}
             className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-semibold border border-slate-700 transition"
           >
             <RefreshCw className={`w-3.5 h-3.5 ${loading ? "animate-spin" : ""}`} />
             <span>{t("admin", "refreshBtn")}</span>
-          </button>
-
-          <button
-            onClick={handleLogout}
-            className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-red-500/10 hover:bg-red-500/20 text-red-400 text-xs font-semibold border border-red-500/30 transition"
-          >
-            <LogOut className="w-3.5 h-3.5" />
-            <span>{t("admin", "logoutBtn")}</span>
           </button>
         </div>
       </div>

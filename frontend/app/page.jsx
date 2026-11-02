@@ -32,6 +32,13 @@ export default function RootPage() {
     );
   }
 
+  // =========================================================================
+  // 1. IF NOT LOGGED IN (GUEST): Directly display Login Portal!
+  // =========================================================================
+  if (authRole === "guest") {
+    return <PortalChoice />;
+  }
+
   // If admin, show quick redirect feedback
   if (authRole === "admin") {
     return (
