@@ -188,7 +188,6 @@ html[data-theme="light"] .bg-cyan-950\/20 {
 /* ====================================================
    LEAFLET GIS MAP STYLING & ANIMATIONS
    ==================================================== */
-@import "leaflet/dist/leaflet.css";
 
 .leaflet-container {
   width: 100%;

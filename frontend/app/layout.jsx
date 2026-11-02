@@ -1,4 +1,5 @@
 import "./globals.css";
+import "leaflet/dist/leaflet.css";
 import { Suspense } from "react";
 import Navbar from "@/components/Navbar";
 import BottomNav from "@/components/BottomNav";
@@ -24,7 +25,9 @@ export default function RootLayout({ children }) {
       <body className="min-h-screen flex flex-col antialiased selection:bg-cyan-500 selection:text-black transition-colors duration-200" suppressHydrationWarning>
         <SettingsProvider>
           {/* Top Navbar */}
-          <Navbar />
+          <Suspense fallback={null}>
+            <Navbar />
+          </Suspense>
 
           {/* Main Content Area */}
           <main className="flex-1 pb-20 md:pb-8">
@@ -35,7 +38,9 @@ export default function RootLayout({ children }) {
           <SettingsModal />
 
           {/* Mobile-Only Bottom Navigation */}
-          <BottomNav />
+          <Suspense fallback={null}>
+            <BottomNav />
+          </Suspense>
         </SettingsProvider>
       </body>
     </html>

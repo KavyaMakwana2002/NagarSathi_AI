@@ -32,13 +32,6 @@ export default function RootPage() {
     );
   }
 
-  // =========================================================================
-  // 1. IF NOT LOGGED IN (GUEST): Directly display Login Portal!
-  // =========================================================================
-  if (authRole === "guest") {
-    return <PortalChoice />;
-  }
-
   // If admin, show quick redirect feedback
   if (authRole === "admin") {
     return (
@@ -60,7 +53,7 @@ export default function RootPage() {
   }
 
   // =========================================================================
-  // 2. IF CITIZEN LOGGED IN: Render Citizen Home Page!
+  // FULL ATTRACTIVE SMART CITY LANDING PAGE (Citizens & Visitors)
   // =========================================================================
   return (
     <div className="space-y-12">
@@ -69,13 +62,20 @@ export default function RootPage() {
       <section className="relative overflow-hidden pt-8 pb-12 px-4 sm:px-6 lg:px-8 border-b border-slate-800/80 bg-gradient-to-b from-blue-950/40 via-slate-950 to-slate-950">
         <div className="max-w-4xl mx-auto text-center relative z-10">
           
-          {/* Citizen Welcome Greeting Badge */}
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-cyan-950/80 border border-cyan-800/60 text-cyan-400 text-xs font-semibold mb-6 shadow-sm">
-            <User className="w-3.5 h-3.5" />
-            <span>
-              {lang === "gu" ? `નમસ્તે, ${currentUser?.name || "નાગરિક"} (${currentUser?.area || "વોર્ડ ૭"})` : `Welcome, ${currentUser?.name || "Citizen"} (${currentUser?.area || "Ward 7"})`}
-            </span>
-          </div>
+          {/* Greeting Badge: Personalized for Citizen, or Hackathon Badge for Guests */}
+          {authRole === "citizen" && currentUser ? (
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-cyan-950/80 border border-cyan-800/60 text-cyan-400 text-xs font-semibold mb-6 shadow-sm">
+              <User className="w-3.5 h-3.5" />
+              <span>
+                {lang === "gu" ? `નમસ્તે, ${currentUser?.name || "નાગરિક"} (${currentUser?.area || "વોર્ડ ૭"})` : `Welcome, ${currentUser?.name || "Citizen"} (${currentUser?.area || "Ward 7"})`}
+              </span>
+            </div>
+          ) : (
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-cyan-950/80 border border-cyan-800/60 text-cyan-400 text-xs font-semibold mb-6 shadow-sm">
+              <Sparkles className="w-3.5 h-3.5 text-cyan-400" />
+              <span>{t("home", "badge") || "Smart Society & Social Impact Hackathon Project"}</span>
+            </div>
+          )}
 
           {/* Heading */}
           <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black tracking-tight text-white leading-tight mb-4">
@@ -106,6 +106,16 @@ export default function RootPage() {
               <Search className="w-5 h-5 text-cyan-400" />
               <span>{t("home", "trackBtn")}</span>
             </Link>
+
+            {authRole === "guest" && (
+              <Link
+                href="/login"
+                className="w-full sm:w-auto px-7 py-3.5 rounded-2xl bg-slate-800/90 hover:bg-slate-700 text-cyan-300 border border-cyan-500/40 font-bold text-sm flex items-center justify-center gap-2 active:scale-95 transition"
+              >
+                <ShieldCheck className="w-5 h-5 text-cyan-400" />
+                <span>{lang === "gu" ? "લૉગિન પોર્ટલ →" : "Login Portal →"}</span>
+              </Link>
+            )}
           </div>
 
         </div>
@@ -151,6 +161,82 @@ export default function RootPage() {
           </div>
         </div>
       </section>
+
+      {/* If Guest: Choose Your Portal Showcase Section */}
+      {authRole === "guest" && (
+        <section className="max-w-6xl mx-auto px-4 sm:px-6">
+          <div className="bg-slate-900/60 border border-slate-800 rounded-3xl p-6 sm:p-8 backdrop-blur-sm shadow-xl">
+            <div className="text-center mb-6">
+              <span className="text-xs font-bold text-cyan-400 uppercase tracking-wider">
+                {t("portal", "badge")}
+              </span>
+              <h2 className="text-xl sm:text-2xl font-extrabold text-white mt-1">
+                {t("portal", "chooseTitle")}
+              </h2>
+              <p className="text-xs sm:text-sm text-slate-400 mt-1">
+                {t("portal", "chooseSub")}
+              </p>
+            </div>
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {/* Citizen Card */}
+              <div className="bg-slate-900/90 border border-slate-800 hover:border-cyan-500/50 rounded-2xl p-6 transition flex flex-col justify-between group">
+                <div className="space-y-3">
+                  <div className="w-12 h-12 rounded-xl bg-gradient-to-tr from-cyan-500 to-blue-600 flex items-center justify-center text-white text-2xl shadow-md group-hover:scale-105 transition">
+                    👤
+                  </div>
+                  <h3 className="text-lg font-bold text-white group-hover:text-cyan-300 transition">
+                    {t("portal", "citizenTitle")}
+                  </h3>
+                  <p className="text-xs text-slate-300 leading-relaxed">
+                    {t("portal", "citizenDesc")}
+                  </p>
+                </div>
+                <div className="mt-5 flex items-center gap-3">
+                  <Link
+                    href="/citizen/login"
+                    className="flex-1 py-2.5 px-4 rounded-xl bg-gradient-to-r from-blue-600 to-cyan-500 hover:from-blue-500 hover:to-cyan-400 text-white text-xs font-bold text-center shadow-md active:scale-95 transition"
+                  >
+                    {t("portal", "citizenLoginBtn")}
+                  </Link>
+                  <Link
+                    href="/citizen/signup"
+                    className="py-2.5 px-4 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-semibold text-center border border-slate-700 active:scale-95 transition"
+                  >
+                    {t("portal", "citizenSignupBtn")}
+                  </Link>
+                </div>
+              </div>
+
+              {/* Admin Card */}
+              <div className="bg-slate-900/90 border border-slate-800 hover:border-purple-500/50 rounded-2xl p-6 transition flex flex-col justify-between group">
+                <div className="space-y-3">
+                  <div className="w-12 h-12 rounded-xl bg-gradient-to-tr from-purple-600 to-indigo-600 flex items-center justify-center text-white text-2xl shadow-md group-hover:scale-105 transition">
+                    🏛️
+                  </div>
+                  <h3 className="text-lg font-bold text-white group-hover:text-purple-300 transition">
+                    {t("portal", "adminTitle")}
+                  </h3>
+                  <p className="text-xs text-slate-300 leading-relaxed">
+                    {t("portal", "adminDesc")}
+                  </p>
+                </div>
+                <div className="mt-5">
+                  <Link
+                    href="/admin/login"
+                    className="w-full block py-2.5 px-4 rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white text-xs font-bold text-center shadow-md active:scale-95 transition"
+                  >
+                    {t("portal", "adminLoginBtn")}
+                  </Link>
+                  <p className="text-[10px] text-slate-500 text-center mt-2">
+                    {t("portal", "adminCreds")}
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      )}
 
       {/* 3 Major Innovations & Social Impact Showcase Section */}
       <section className="max-w-6xl mx-auto px-4 sm:px-6">

@@ -159,17 +159,56 @@ export default function Navbar() {
             </>
           )}
 
-          {/* 3. GUEST VIEW / LOGIN PORTAL: Only Portal and Settings */}
+          {/* 3. GUEST VIEW / ALL VISITORS: Home, New Complaint, Track Status, Heatmap, WhatsApp, Settings */}
           {effectiveRole === "guest" && (
             <>
               <Link
                 href="/"
-                className={`px-4 py-1.5 rounded-full text-xs font-semibold flex items-center gap-1.5 transition ${
-                  pathname === "/" || pathname === "/login" ? "bg-blue-600 text-white shadow-sm" : "text-slate-300 hover:text-white hover:bg-slate-700/50"
+                className={`px-3.5 py-1.5 rounded-full text-xs font-semibold transition ${
+                  pathname === "/" ? "bg-blue-600 text-white shadow-sm" : "text-slate-300 hover:text-white hover:bg-slate-700/50"
                 }`}
               >
-                <LogIn className="w-3.5 h-3.5 text-cyan-300" />
-                <span suppressHydrationWarning>{navT("nav", "portalLogin")}</span>
+                <span suppressHydrationWarning>{navT("nav", "home")}</span>
+              </Link>
+
+              <Link
+                href="/complaint"
+                className={`px-3.5 py-1.5 rounded-full text-xs font-semibold flex items-center gap-1.5 transition ${
+                  pathname === "/complaint" ? "bg-blue-600 text-white shadow-sm" : "text-slate-300 hover:text-white hover:bg-slate-700/50"
+                }`}
+              >
+                <PlusCircle className="w-3.5 h-3.5" />
+                <span suppressHydrationWarning>{navT("nav", "newComplaint")}</span>
+              </Link>
+
+              <Link
+                href="/track"
+                className={`px-3.5 py-1.5 rounded-full text-xs font-semibold flex items-center gap-1.5 transition ${
+                  pathname === "/track" ? "bg-blue-600 text-white shadow-sm" : "text-slate-300 hover:text-white hover:bg-slate-700/50"
+                }`}
+              >
+                <Search className="w-3.5 h-3.5" />
+                <span suppressHydrationWarning>{navT("nav", "trackStatus")}</span>
+              </Link>
+
+              <Link
+                href="/heatmap"
+                className={`px-3.5 py-1.5 rounded-full text-xs font-semibold flex items-center gap-1.5 transition ${
+                  pathname === "/heatmap" ? "bg-red-600 text-white shadow-sm" : "text-slate-300 hover:text-white hover:bg-slate-700/50"
+                }`}
+              >
+                <Map className="w-3.5 h-3.5 text-amber-400" />
+                <span suppressHydrationWarning>{navT("nav", "heatmap") || "જીઆઈએસ હીટમેપ"}</span>
+              </Link>
+
+              <Link
+                href="/whatsapp"
+                className={`px-3.5 py-1.5 rounded-full text-xs font-semibold flex items-center gap-1.5 transition ${
+                  pathname === "/whatsapp" ? "bg-emerald-600 text-white shadow-sm" : "text-slate-300 hover:text-white hover:bg-slate-700/50"
+                }`}
+              >
+                <MessageCircle className="w-3.5 h-3.5 text-emerald-400" />
+                <span suppressHydrationWarning>{navT("nav", "whatsappBot") || "વોટ્સએપ બોટ"}</span>
               </Link>
 
               <button

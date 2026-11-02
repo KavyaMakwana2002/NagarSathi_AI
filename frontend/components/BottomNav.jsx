@@ -115,25 +115,59 @@ export default function BottomNav() {
           </>
         )}
 
-        {/* 3. GUEST BOTTOM NAV: Portal Choice, Settings */}
+        {/* 3. GUEST BOTTOM NAV: Home, Report, Track, Portal, Settings */}
         {effectiveRole === "guest" && (
           <>
             <Link
               href="/"
-              className={`flex flex-col items-center py-1 px-4 rounded-xl transition ${
+              className={`flex flex-col items-center py-1 px-2 rounded-xl transition ${
                 pathname === "/" ? "text-cyan-400 font-bold" : "text-slate-400 hover:text-slate-200"
               }`}
             >
-              <LogIn className="w-5 h-5 mb-0.5" />
+              <Home className="w-4 h-4 mb-0.5" />
+              <span className="text-[10px]">{t("nav", "home")}</span>
+            </Link>
+
+            <Link
+              href="/complaint"
+              className="flex flex-col items-center -mt-5 group"
+            >
+              <div className="w-12 h-12 rounded-full bg-gradient-to-tr from-blue-600 to-cyan-400 p-0.5 shadow-lg shadow-cyan-500/30 group-active:scale-95 transition">
+                <div className="w-full h-full rounded-full bg-gradient-to-br from-blue-600 to-blue-700 flex items-center justify-center text-white">
+                  <PlusCircle className="w-5 h-5" />
+                </div>
+              </div>
+              <span className="text-[10px] font-bold text-cyan-400 mt-0.5">
+                {t("nav", "reportIssue")}
+              </span>
+            </Link>
+
+            <Link
+              href="/track"
+              className={`flex flex-col items-center py-1 px-2 rounded-xl transition ${
+                pathname === "/track" ? "text-cyan-400 font-bold" : "text-slate-400 hover:text-slate-200"
+              }`}
+            >
+              <Search className="w-4 h-4 mb-0.5" />
+              <span className="text-[10px]">{t("nav", "trackStatus")}</span>
+            </Link>
+
+            <Link
+              href="/login"
+              className={`flex flex-col items-center py-1 px-2 rounded-xl transition ${
+                pathname === "/login" ? "text-cyan-400 font-bold" : "text-slate-400 hover:text-slate-200"
+              }`}
+            >
+              <LogIn className="w-4 h-4 mb-0.5" />
               <span className="text-[10px]">{t("nav", "portalLogin")}</span>
             </Link>
 
             <button
               type="button"
               onClick={openSettings}
-              className="flex flex-col items-center py-1 px-4 rounded-xl text-slate-400 hover:text-cyan-400 transition"
+              className="flex flex-col items-center py-1 px-2 rounded-xl text-slate-400 hover:text-cyan-400 transition"
             >
-              <Settings className="w-5 h-5 mb-0.5" />
+              <Settings className="w-4 h-4 mb-0.5" />
               <span className="text-[10px]">{t("nav", "settings")}</span>
             </button>
           </>
