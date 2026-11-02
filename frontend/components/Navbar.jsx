@@ -141,7 +141,7 @@ export default function Navbar() {
             </>
           )}
 
-          {/* 3. GUEST VIEW (Not Logged In): Login Portal, Heatmap, WhatsApp, Settings */}
+          {/* 3. GUEST VIEW / LOGIN PORTAL: Only Portal and Settings */}
           {effectiveRole === "guest" && (
             <>
               <Link
@@ -152,26 +152,6 @@ export default function Navbar() {
               >
                 <LogIn className="w-3.5 h-3.5 text-cyan-300" />
                 <span>{t("nav", "portalLogin")}</span>
-              </Link>
-
-              <Link
-                href="/heatmap"
-                className={`px-3.5 py-1.5 rounded-full text-xs font-semibold flex items-center gap-1.5 transition ${
-                  pathname === "/heatmap" ? "bg-red-600 text-white shadow-sm" : "text-slate-300 hover:text-white hover:bg-slate-700/50"
-                }`}
-              >
-                <Map className="w-3.5 h-3.5 text-amber-400" />
-                <span>{t("nav", "heatmap") || "જીઆઈએસ હીટમેપ"}</span>
-              </Link>
-
-              <Link
-                href="/whatsapp"
-                className={`px-3.5 py-1.5 rounded-full text-xs font-semibold flex items-center gap-1.5 transition ${
-                  pathname === "/whatsapp" ? "bg-emerald-600 text-white shadow-sm" : "text-slate-300 hover:text-white hover:bg-slate-700/50"
-                }`}
-              >
-                <MessageCircle className="w-3.5 h-3.5 text-emerald-400" />
-                <span>{t("nav", "whatsappBot") || "વોટ્સએપ બોટ"}</span>
               </Link>
 
               <button

@@ -11,6 +11,7 @@ import { getCitizenComplaints } from "@/lib/api";
 import StatusBadge from "@/components/StatusBadge";
 import { PRIORITY_CONFIG } from "@/lib/constants";
 import { useSettings } from "@/context/SettingsContext";
+import { formatRealDateTime } from "@/lib/formatDate";
 
 export default function CitizenDashboardPage() {
   const router = useRouter();
@@ -258,9 +259,9 @@ export default function CitizenDashboardPage() {
                       <MapPin className="w-3.5 h-3.5 text-slate-500" />
                       {c.area}
                     </span>
-                    <span className="flex items-center gap-1 text-slate-500">
-                      <Calendar className="w-3.5 h-3.5" />
-                      {c.created_at ? c.created_at.slice(0, 16) : ""}
+                    <span className="flex items-center gap-1 text-slate-400 font-mono">
+                      <Calendar className="w-3.5 h-3.5 text-slate-500" />
+                      {formatRealDateTime(c.created_at)}
                     </span>
                   </div>
                 </div>

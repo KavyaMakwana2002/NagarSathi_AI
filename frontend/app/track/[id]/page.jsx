@@ -13,6 +13,7 @@ import StatusBadge from "@/components/StatusBadge";
 import BeforeAfterSlider from "@/components/BeforeAfterSlider";
 import { PRIORITY_CONFIG } from "@/lib/constants";
 import { useSettings } from "@/context/SettingsContext";
+import { formatRealDateTime } from "@/lib/formatDate";
 
 function TrackByIdContent() {
   const { id } = useParams();
@@ -163,7 +164,7 @@ function TrackByIdContent() {
                 <div className="relative">
                   <span className="absolute -left-[31px] top-0 w-4 h-4 rounded-full bg-emerald-500 border-2 border-white dark:border-slate-950" />
                   <p className="text-xs font-bold text-slate-900 dark:text-white">{t("track", "timeline1")}</p>
-                  <p className="text-[11px] text-slate-500 dark:text-slate-400">{complaint.created_at || "Just now"}</p>
+                  <p className="text-[11px] text-slate-500 dark:text-slate-400 font-mono">{formatRealDateTime(complaint.created_at)}</p>
                 </div>
 
                 <div className="relative">
@@ -247,9 +248,9 @@ function TrackByIdContent() {
                 <MapPin className="w-3.5 h-3.5 text-red-500" />
                 {complaint.area}
               </span>
-              <span className="flex items-center gap-1.5">
+              <span className="flex items-center gap-1.5 font-mono">
                 <Calendar className="w-3.5 h-3.5 text-slate-400" />
-                {complaint.created_at ? complaint.created_at.slice(0, 10) : ""}
+                {formatRealDateTime(complaint.created_at)}
               </span>
             </div>
 

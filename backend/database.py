@@ -99,8 +99,8 @@ def init_db():
         cursor.execute("""
             INSERT INTO citizens (name, mobile, area, password)
             VALUES (?, ?, ?, ?)
-        """, ("Ramesh Patel", "9876543210", "Navrangpura (Ward 7)", "123456"))
-        print("[Database] Default citizen seeded: mobile=9876543210, password=123456")
+        """, ("Kavya Makwana", "9824929296", "Navrangpura (Ward 7)", "K@vya"))
+        print("[Database] Default citizen seeded: mobile=9824929296, password=K@vya")
 
     # Seed initial demo complaints if empty or missing coordinates
     cursor.execute("SELECT COUNT(*) as cnt FROM complaints")
@@ -108,7 +108,7 @@ def init_db():
     if comp_count == 0:
         demo_complaints = [
             (
-                "NS-RD8821", "Ramesh Patel", "9876543210", "Navrangpura (Ward 7)", "Road & Potholes",
+                "NS-RD8821", "Kavya Makwana", "9824929296", "Navrangpura (Ward 7)", "Road & Potholes",
                 "નવરંગપુરા મેઈન રોડ પર ૨ ફૂટ ઊંડો ખાડો હતો, વાહનો સ્લિપ થતા હતા.",
                 "gu", "Deep 2-ft pothole on Navrangpura main road causing two-wheeler skids.",
                 "pothole_before.jpg", "High", 0.98,

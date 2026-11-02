@@ -1,9 +1,10 @@
 "use client";
 
-import { MapPin, Calendar, Users, AlertTriangle, Sparkles } from "lucide-react";
+import { MapPin, Calendar, Users, AlertTriangle, Sparkles, Clock } from "lucide-react";
 import StatusBadge from "./StatusBadge";
 import { PRIORITY_CONFIG } from "@/lib/constants";
 import { useSettings } from "@/context/SettingsContext";
+import { formatRealDateTime } from "@/lib/formatDate";
 
 export default function ComplaintCard({ complaint, onStatusClick }) {
   const { lang } = useSettings();
@@ -70,9 +71,9 @@ export default function ComplaintCard({ complaint, onStatusClick }) {
             </div>
           )}
           
-          <div className="flex items-center gap-1 text-slate-500">
-            <Calendar className="w-3 h-3" />
-            <span>{complaint.created_at ? complaint.created_at.slice(0, 10) : "Today"}</span>
+          <div className="flex items-center gap-1 text-slate-500 font-mono text-[11px]">
+            <Clock className="w-3 h-3 text-cyan-400" />
+            <span>{formatRealDateTime(complaint.created_at)}</span>
           </div>
         </div>
       </div>

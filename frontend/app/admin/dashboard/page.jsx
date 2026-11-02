@@ -12,6 +12,7 @@ import StatusBadge from "@/components/StatusBadge";
 import BeforeAfterSlider from "@/components/BeforeAfterSlider";
 import { PRIORITY_CONFIG } from "@/lib/constants";
 import { useSettings } from "@/context/SettingsContext";
+import { formatRealDateTime } from "@/lib/formatDate";
 
 export default function AdminDashboardPage() {
   const router = useRouter();
@@ -426,7 +427,7 @@ export default function AdminDashboardPage() {
                     )}
                   </div>
 
-                  <span>{c.created_at ? c.created_at.slice(0, 16) : ""}</span>
+                  <span className="font-mono text-slate-400">{formatRealDateTime(c.created_at)}</span>
                 </div>
               </div>
             );

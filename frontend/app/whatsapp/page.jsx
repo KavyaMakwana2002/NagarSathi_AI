@@ -95,8 +95,8 @@ export default function WhatsAppBotPage() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          sender: "9876543210",
-          sender_name: "Ramesh Patel",
+          sender: "9824929296",
+          sender_name: "Kavya Makwana",
           text: textToSend,
           photo: photoToSend,
           area: "Navrangpura (Ward 7)"
