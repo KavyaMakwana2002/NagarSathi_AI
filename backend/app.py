@@ -15,10 +15,10 @@ def create_app():
     # Initialize database tables & seed initial accounts on launch
     init_db()
 
-    # Enable CORS for Next.js frontend (Vercel and localhost)
+    # Enable CORS for Next.js frontend (Vercel, localhost, and all origins)
     CORS(app, resources={
-        r"/api/*": {
-            "origins": ["http://localhost:3000", "http://127.0.0.1:3000", "*.vercel.app", "*"],
+        r"/*": {
+            "origins": "*",
             "methods": ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
             "allow_headers": ["Content-Type", "Authorization"]
         }
