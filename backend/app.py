@@ -12,6 +12,9 @@ def create_app():
     app = Flask(__name__)
     app.config.from_object(Config)
 
+    # Initialize database tables & seed initial accounts on launch
+    init_db()
+
     # Enable CORS for Next.js frontend (Vercel and localhost)
     CORS(app, resources={
         r"/api/*": {

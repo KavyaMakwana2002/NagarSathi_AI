@@ -6,7 +6,7 @@ export default function DuplicateAlertModal({ isOpen, duplicateInfo, onClose, on
   if (!isOpen || !duplicateInfo?.is_duplicate) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-sm animate-in fade-in">
+    <div className="fixed inset-0 z-[9999] flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-sm animate-in fade-in">
       <div className="bg-slate-900 border border-cyan-500/40 rounded-3xl p-6 max-w-md w-full shadow-2xl relative">
         <div className="w-12 h-12 rounded-2xl bg-cyan-950/80 border border-cyan-500/50 flex items-center justify-center text-cyan-400 mb-4 mx-auto">
           <AlertCircle className="w-7 h-7" />

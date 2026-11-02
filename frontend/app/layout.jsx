@@ -24,9 +24,7 @@ export default function RootLayout({ children }) {
       <body className="min-h-screen flex flex-col antialiased selection:bg-cyan-500 selection:text-black transition-colors duration-200" suppressHydrationWarning>
         <SettingsProvider>
           {/* Top Navbar */}
-          <Suspense fallback={null}>
-            <Navbar />
-          </Suspense>
+          <Navbar />
 
           {/* Main Content Area */}
           <main className="flex-1 pb-20 md:pb-8">
@@ -37,9 +35,7 @@ export default function RootLayout({ children }) {
           <SettingsModal />
 
           {/* Mobile-Only Bottom Navigation */}
-          <Suspense fallback={null}>
-            <BottomNav />
-          </Suspense>
+          <BottomNav />
         </SettingsProvider>
       </body>
     </html>

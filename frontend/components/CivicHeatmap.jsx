@@ -451,7 +451,7 @@ export default function CivicHeatmap({ height = "680px", showHeader = true }) {
 
       {/* Main Map Box & Floating Controls */}
       <div
-        className="relative rounded-3xl overflow-hidden border border-slate-200 dark:border-slate-800 shadow-2xl bg-slate-900 group"
+        className="relative isolate z-10 rounded-3xl overflow-hidden border border-slate-200 dark:border-slate-800 shadow-2xl bg-slate-900 group"
         style={{ height }}
       >
         {/* Leaflet Mount Container */}

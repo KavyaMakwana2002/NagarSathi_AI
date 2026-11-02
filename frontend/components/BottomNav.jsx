@@ -1,19 +1,17 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useSyncExternalStore } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Home, PlusCircle, Search, LayoutDashboard, Settings, User, LogIn, LogOut } from "lucide-react";
 import { useSettings } from "@/context/SettingsContext";
 
+const emptySubscribe = () => () => {};
+
 export default function BottomNav() {
   const pathname = usePathname();
   const { openSettings, t, authRole, logout, lang } = useSettings();
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
+  const mounted = useSyncExternalStore(emptySubscribe, () => true, () => false);
 
   // Return null during SSR and initial hydration to guarantee zero mismatch
   if (!mounted) {

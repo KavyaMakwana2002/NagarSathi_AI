@@ -1,25 +1,35 @@
 "use client";
 
+import React, { useSyncExternalStore } from "react";
 import Link from "next/link";
 import { useRouter, usePathname } from "next/navigation";
 import { 
   PlusCircle, Search, LayoutDashboard, Settings, LogIn, LogOut, User, ShieldCheck, Map, MessageCircle
 } from "lucide-react";
 import { useSettings } from "@/context/SettingsContext";
+import { TRANSLATIONS } from "@/lib/translations";
 
-import React, { useState, useEffect } from "react";
+const emptySubscribe = () => () => {};
 
 export default function Navbar() {
   const router = useRouter();
   const pathname = usePathname();
   const { openSettings, t, authRole, currentUser, logout, lang } = useSettings();
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
+  
+  // React 18/19 recommended hydration-safe mount detection (eliminates SSR mismatch)
+  const mounted = useSyncExternalStore(emptySubscribe, () => true, () => false);
 
   const effectiveRole = mounted ? authRole : "guest";
+  const effectiveLang = mounted ? lang : "gu";
+
+  // Hydration-safe translation helper for Navbar:
+  // Before client mount, guarantee 100% exact match with Server SSR (default "gu")
+  const navT = (sec, key) => {
+    if (!mounted) {
+      return TRANSLATIONS.gu?.[sec]?.[key] || key;
+    }
+    return t(sec, key);
+  };
 
   const handleLogout = () => {
     logout();
@@ -40,7 +50,7 @@ export default function Navbar() {
               NagarSathi <span className="text-cyan-400">AI</span>
             </div>
             <p className="text-[10px] text-slate-400 tracking-wider font-medium uppercase -mt-0.5" suppressHydrationWarning>
-              {t("nav", "brandSub")}
+              {navT("nav", "brandSub")}
             </p>
           </div>
         </Link>
@@ -59,7 +69,7 @@ export default function Navbar() {
                   pathname === "/" ? "bg-blue-600 text-white shadow-sm" : "text-slate-300 hover:text-white hover:bg-slate-700/50"
                 }`}
               >
-                {t("nav", "home")}
+                <span suppressHydrationWarning>{navT("nav", "home")}</span>
               </Link>
 
               <Link
@@ -69,7 +79,7 @@ export default function Navbar() {
                 }`}
               >
                 <PlusCircle className="w-3.5 h-3.5" />
-                <span>{t("nav", "newComplaint")}</span>
+                <span suppressHydrationWarning>{navT("nav", "newComplaint")}</span>
               </Link>
 
               <Link
@@ -79,7 +89,7 @@ export default function Navbar() {
                 }`}
               >
                 <Search className="w-3.5 h-3.5" />
-                <span>{t("nav", "trackStatus")}</span>
+                <span suppressHydrationWarning>{navT("nav", "trackStatus")}</span>
               </Link>
 
               <Link
@@ -89,7 +99,7 @@ export default function Navbar() {
                 }`}
               >
                 <Map className="w-3.5 h-3.5 text-amber-400" />
-                <span>{t("nav", "heatmap") || "જીઆઈએસ હીટમેપ"}</span>
+                <span suppressHydrationWarning>{navT("nav", "heatmap") || "જીઆઈએસ હીટમેપ"}</span>
               </Link>
 
               <Link
@@ -99,7 +109,7 @@ export default function Navbar() {
                 }`}
               >
                 <MessageCircle className="w-3.5 h-3.5 text-emerald-400" />
-                <span>{t("nav", "whatsappBot") || "વોટ્સએપ બોટ"}</span>
+                <span suppressHydrationWarning>{navT("nav", "whatsappBot") || "વોટ્સએપ બોટ"}</span>
               </Link>
 
               <button
@@ -109,7 +119,7 @@ export default function Navbar() {
                 title="Settings (સેટિંગ્સ)"
               >
                 <Settings className="w-3.5 h-3.5 text-cyan-400" />
-                <span>{t("nav", "settings")}</span>
+                <span suppressHydrationWarning>{navT("nav", "settings")}</span>
               </button>
             </>
           )}
@@ -124,7 +134,7 @@ export default function Navbar() {
                 }`}
               >
                 <LayoutDashboard className="w-3.5 h-3.5" />
-                <span>{t("nav", "adminPanel")}</span>
+                <span suppressHydrationWarning>{navT("nav", "adminPanel")}</span>
               </Link>
 
               <Link
@@ -134,7 +144,7 @@ export default function Navbar() {
                 }`}
               >
                 <Map className="w-3.5 h-3.5 text-amber-400" />
-                <span>{t("nav", "heatmap") || "જીઆઈએસ હીટમેપ"}</span>
+                <span suppressHydrationWarning>{navT("nav", "heatmap") || "જીઆઈએસ હીટમેપ"}</span>
               </Link>
 
               <button
@@ -144,7 +154,7 @@ export default function Navbar() {
                 title="Settings (સેટિંગ્સ)"
               >
                 <Settings className="w-3.5 h-3.5 text-cyan-400" />
-                <span>{t("nav", "settings")}</span>
+                <span suppressHydrationWarning>{navT("nav", "settings")}</span>
               </button>
             </>
           )}
@@ -159,7 +169,7 @@ export default function Navbar() {
                 }`}
               >
                 <LogIn className="w-3.5 h-3.5 text-cyan-300" />
-                <span>{t("nav", "portalLogin")}</span>
+                <span suppressHydrationWarning>{navT("nav", "portalLogin")}</span>
               </Link>
 
               <button
@@ -169,7 +179,7 @@ export default function Navbar() {
                 title="Settings (સેટિંગ્સ)"
               >
                 <Settings className="w-3.5 h-3.5 text-cyan-400" />
-                <span>{t("nav", "settings")}</span>
+                <span suppressHydrationWarning>{navT("nav", "settings")}</span>
               </button>
             </>
           )}
@@ -196,7 +206,7 @@ export default function Navbar() {
                 className="hidden sm:inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl bg-gradient-to-r from-blue-600 to-cyan-500 hover:from-blue-500 hover:to-cyan-400 text-white text-xs font-bold shadow-md shadow-blue-500/25 transition active:scale-95"
               >
                 <PlusCircle className="w-3.5 h-3.5" />
-                <span>{t("nav", "reportIssue")}</span>
+                <span suppressHydrationWarning>{navT("nav", "reportIssue")}</span>
               </Link>
 
               <button
@@ -205,7 +215,7 @@ export default function Navbar() {
                 title="લૉગ આઉટ (Logout)"
               >
                 <LogOut className="w-3.5 h-3.5" />
-                <span className="hidden sm:inline">{lang === "gu" ? "લૉગ આઉટ" : "Logout"}</span>
+                <span className="hidden sm:inline" suppressHydrationWarning>{effectiveLang === "gu" ? "લૉગ આઉટ" : "Logout"}</span>
               </button>
             </div>
           )}
@@ -224,7 +234,7 @@ export default function Navbar() {
                 title="લૉગ આઉટ (Logout)"
               >
                 <LogOut className="w-3.5 h-3.5" />
-                <span>{lang === "gu" ? "લૉગ આઉટ" : "Logout"}</span>
+                <span suppressHydrationWarning>{effectiveLang === "gu" ? "લૉગ આઉટ" : "Logout"}</span>
               </button>
             </div>
           )}
@@ -236,7 +246,7 @@ export default function Navbar() {
               className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-gradient-to-r from-blue-600 to-cyan-500 hover:from-blue-500 hover:to-cyan-400 text-white text-xs font-bold shadow-md shadow-blue-500/25 transition active:scale-95"
             >
               <LogIn className="w-3.5 h-3.5" />
-              <span>{t("nav", "portalLogin")}</span>
+              <span suppressHydrationWarning>{navT("nav", "portalLogin")}</span>
             </Link>
           )}
 
