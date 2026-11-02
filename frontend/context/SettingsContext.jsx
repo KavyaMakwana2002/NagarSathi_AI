@@ -170,9 +170,10 @@ export function SettingsProvider({ children }) {
   const openSettings = () => setIsSettingsOpen(true);
   const closeSettings = () => setIsSettingsOpen(false);
 
-  // Translation helper
+  // Translation helper with hydration safety
   const t = (section, key) => {
-    const activeDict = TRANSLATIONS[lang] || TRANSLATIONS.gu;
+    const activeLang = mounted ? lang : "gu";
+    const activeDict = TRANSLATIONS[activeLang] || TRANSLATIONS.gu;
     if (section && key) {
       return activeDict[section]?.[key] || key;
     }

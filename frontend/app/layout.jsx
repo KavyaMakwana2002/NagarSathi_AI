@@ -21,7 +21,7 @@ export const viewport = {
 export default function RootLayout({ children }) {
   return (
     <html lang="gu" className="dark" suppressHydrationWarning>
-      <body className="min-h-screen flex flex-col antialiased selection:bg-cyan-500 selection:text-black transition-colors duration-200">
+      <body className="min-h-screen flex flex-col antialiased selection:bg-cyan-500 selection:text-black transition-colors duration-200" suppressHydrationWarning>
         <SettingsProvider>
           {/* Top Navbar */}
           <Suspense fallback={null}>

@@ -7,14 +7,15 @@ import { useSettings } from "@/context/SettingsContext";
 
 export default function BottomNav() {
   const pathname = usePathname();
-  const { openSettings, t, authRole, logout, lang } = useSettings();
+  const { openSettings, t, authRole, logout, lang, mounted } = useSettings();
+  const effectiveRole = mounted ? authRole : "guest";
 
   return (
-    <nav className="lg:hidden fixed bottom-0 left-0 right-0 z-50 bg-slate-900/95 backdrop-blur-lg border-t border-slate-800 px-2 py-1.5 shadow-2xl">
-      <div className="flex items-center justify-around max-w-md mx-auto">
+    <nav className="lg:hidden fixed bottom-0 left-0 right-0 z-50 bg-slate-900/95 backdrop-blur-lg border-t border-slate-800 px-2 py-1.5 shadow-2xl" suppressHydrationWarning>
+      <div className="flex items-center justify-around max-w-md mx-auto" suppressHydrationWarning>
         
         {/* 1. CITIZEN BOTTOM NAV: Home, Report, Track, Profile, Settings */}
-        {authRole === "citizen" && (
+        {effectiveRole === "citizen" && (
           <>
             <Link
               href="/"
@@ -72,7 +73,7 @@ export default function BottomNav() {
         )}
 
         {/* 2. ADMIN BOTTOM NAV: Dashboard, Settings, Logout */}
-        {authRole === "admin" && (
+        {effectiveRole === "admin" && (
           <>
             <Link
               href="/admin/dashboard"
@@ -105,7 +106,7 @@ export default function BottomNav() {
         )}
 
         {/* 3. GUEST BOTTOM NAV: Portal Choice, Settings */}
-        {authRole === "guest" && (
+        {effectiveRole === "guest" && (
           <>
             <Link
               href="/"

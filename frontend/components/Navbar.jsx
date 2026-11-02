@@ -10,7 +10,8 @@ import { useSettings } from "@/context/SettingsContext";
 export default function Navbar() {
   const router = useRouter();
   const pathname = usePathname();
-  const { openSettings, t, authRole, currentUser, logout, lang } = useSettings();
+  const { openSettings, t, authRole, currentUser, logout, lang, mounted } = useSettings();
+  const effectiveRole = mounted ? authRole : "guest";
 
   const handleLogout = () => {
     logout();
@@ -18,7 +19,7 @@ export default function Navbar() {
   };
 
   return (
-    <header className="sticky top-0 z-40 backdrop-blur-md bg-slate-900/90 border-b border-slate-800 text-white transition-all shadow-lg">
+    <header className="sticky top-0 z-40 backdrop-blur-md bg-slate-900/90 border-b border-slate-800 text-white transition-all shadow-lg" suppressHydrationWarning>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
         
         {/* Brand Logo */}
@@ -27,10 +28,10 @@ export default function Navbar() {
             <span className="text-xl">🏙️</span>
           </div>
           <div>
-            <div className="font-extrabold text-lg tracking-tight bg-gradient-to-r from-white via-slate-100 to-blue-300 bg-clip-text text-transparent">
+            <div className="font-extrabold text-lg tracking-tight bg-gradient-to-r from-white via-slate-100 to-blue-300 bg-clip-text text-transparent" suppressHydrationWarning>
               NagarSathi <span className="text-cyan-400">AI</span>
             </div>
-            <p className="text-[10px] text-slate-400 tracking-wider font-medium uppercase -mt-0.5">
+            <p className="text-[10px] text-slate-400 tracking-wider font-medium uppercase -mt-0.5" suppressHydrationWarning>
               {t("nav", "brandSub")}
             </p>
           </div>
@@ -39,10 +40,10 @@ export default function Navbar() {
         {/* ========================================================
             ROLE-BASED NAVIGATION LINKS (Desktop)
            ======================================================== */}
-        <nav className="hidden lg:flex items-center gap-1.5 bg-slate-800/60 p-1.5 rounded-full border border-slate-700/60">
+        <nav className="hidden lg:flex items-center gap-1.5 bg-slate-800/60 p-1.5 rounded-full border border-slate-700/60" suppressHydrationWarning>
           
           {/* 1. CITIZEN VIEW: Home, New Complaint, Track Status, Settings */}
-          {authRole === "citizen" && (
+          {effectiveRole === "citizen" && (
             <>
               <Link
                 href="/"
@@ -106,7 +107,7 @@ export default function Navbar() {
           )}
 
           {/* 2. ADMIN VIEW: Admin Dashboard, Heatmap, Settings */}
-          {authRole === "admin" && (
+          {effectiveRole === "admin" && (
             <>
               <Link
                 href="/admin/dashboard"
@@ -141,7 +142,7 @@ export default function Navbar() {
           )}
 
           {/* 3. GUEST VIEW (Not Logged In): Login Portal, Heatmap, WhatsApp, Settings */}
-          {authRole === "guest" && (
+          {effectiveRole === "guest" && (
             <>
               <Link
                 href="/"
@@ -188,10 +189,10 @@ export default function Navbar() {
         </nav>
 
         {/* Right Action Area */}
-        <div className="flex items-center gap-2.5">
+        <div className="flex items-center gap-2.5" suppressHydrationWarning>
           
           {/* If Citizen Logged In: Show Name & Logout */}
-          {authRole === "citizen" && (
+          {effectiveRole === "citizen" && (
             <div className="flex items-center gap-2">
               <Link
                 href="/citizen/dashboard"
@@ -222,7 +223,7 @@ export default function Navbar() {
           )}
 
           {/* If Admin Logged In: Show Admin badge & Logout */}
-          {authRole === "admin" && (
+          {effectiveRole === "admin" && (
             <div className="flex items-center gap-2">
               <span className="hidden sm:flex items-center gap-1 px-3 py-1.5 rounded-xl bg-purple-950/60 text-purple-300 border border-purple-800/60 text-xs font-semibold">
                 <ShieldCheck className="w-3.5 h-3.5 text-purple-400" />
@@ -241,7 +242,7 @@ export default function Navbar() {
           )}
 
           {/* If Guest (Not Logged In): Show Quick Login Link */}
-          {authRole === "guest" && (
+          {effectiveRole === "guest" && (
             <Link
               href="/login"
               className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-gradient-to-r from-blue-600 to-cyan-500 hover:from-blue-500 hover:to-cyan-400 text-white text-xs font-bold shadow-md shadow-blue-500/25 transition active:scale-95"
