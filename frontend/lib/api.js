@@ -1,4 +1,6 @@
-const BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000/api";
+const rawUrl = process.env.NEXT_PUBLIC_API_URL || "https://nagarsathi-ai.onrender.com/api";
+const cleanUrl = rawUrl.replace(/\/+$/, "");
+export const BASE_URL = cleanUrl.endsWith("/api") ? cleanUrl : `${cleanUrl}/api`;
 
 export async function submitComplaint(formData) {
   const response = await fetch(`${BASE_URL}/complaints`, {
@@ -84,4 +86,27 @@ export async function getCitizenComplaints(mobile) {
     cache: "no-store",
   });
   return response.json();
+}
+
+export async function verifyPhoto(file, category) {
+  const formData = new FormData();
+  formData.append("photo", file);
+  formData.append("category", category);
+  const response = await fetch(`${BASE_URL}/complaints/verify-photo`, {
+    method: "POST",
+    body: formData,
+  });
+  return response.json();
+}
+
+export async function getHeatmapData(category = "All", status = "All") {
+  const url = `${BASE_URL}/complaints/heatmap?category=${encodeURIComponent(category)}&status=${encodeURIComponent(status)}`;
+  const response = await fetch(url, { cache: "no-store" });
+  return response.json();
+}
+
+export function getUploadUrl(filename) {
+  if (!filename) return null;
+  if (filename.startsWith("http://") || filename.startsWith("https://")) return filename;
+  return `${BASE_URL}/uploads/${filename}`;
 }

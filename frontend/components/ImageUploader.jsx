@@ -2,6 +2,7 @@
 
 import { useState, useRef } from "react";
 import { Camera, UploadCloud, X, Image as ImageIcon, ShieldCheck, Sparkles, Loader2 } from "lucide-react";
+import { verifyPhoto } from "@/lib/api";
 
 export default function ImageUploader({ onImageSelected, category = "" }) {
   const [preview, setPreview] = useState(null);
@@ -22,14 +23,7 @@ export default function ImageUploader({ onImageSelected, category = "" }) {
       // Trigger Gemini Vision AI Verification
       setVerifying(true);
       try {
-        const formData = new FormData();
-        formData.append("photo", file);
-        formData.append("category", category);
-        const res = await fetch("http://localhost:5000/api/complaints/verify-photo", {
-          method: "POST",
-          body: formData,
-        });
-        const data = await res.json();
+        const data = await verifyPhoto(file, category);
         if (data.success) {
           setVisionResult(data.verification);
         }

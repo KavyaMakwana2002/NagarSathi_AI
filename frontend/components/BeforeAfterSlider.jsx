@@ -2,6 +2,7 @@
 
 import React, { useState, useRef, useEffect, useCallback } from "react";
 import { useSettings } from "../context/SettingsContext";
+import { getUploadUrl } from "@/lib/api";
 import { CheckCircle2, ShieldCheck, Sparkles, SlidersHorizontal, Image as ImageIcon } from "lucide-react";
 
 export default function BeforeAfterSlider({
@@ -21,7 +22,7 @@ export default function BeforeAfterSlider({
   const getImageUrl = (img) => {
     if (!img) return "/uploads/pothole_before.jpg";
     if (img.startsWith("http") || img.startsWith("data:") || img.startsWith("/")) return img;
-    return `http://localhost:5000/api/uploads/${img}`;
+    return getUploadUrl(img);
   };
 
   const handleMove = useCallback((clientX) => {

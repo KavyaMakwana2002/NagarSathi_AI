@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect, useRef } from "react";
 import { useSettings } from "../context/SettingsContext";
+import { getHeatmapData, getUploadUrl } from "@/lib/api";
 import Link from "next/link";
 import {
   MapPin,
@@ -127,11 +128,7 @@ export default function CivicHeatmap({ height = "680px", showHeader = true }) {
   const fetchHeatmapData = async () => {
     setLoading(true);
     try {
-      const url = `http://localhost:5000/api/complaints/heatmap?category=${encodeURIComponent(
-        selectedCategory
-      )}&status=${encodeURIComponent(selectedStatus)}`;
-      const res = await fetch(url);
-      const data = await res.json();
+      const data = await getHeatmapData(selectedCategory, selectedStatus);
       if (data.success) {
         setPoints(data.points || []);
         setStats({
@@ -609,7 +606,7 @@ export default function CivicHeatmap({ height = "680px", showHeader = true }) {
             {selectedPoint.photo && (
               <div className="mt-2.5 relative h-28 rounded-xl overflow-hidden border border-slate-200 dark:border-slate-700 group">
                 <img
-                  src={`http://localhost:5000/api/uploads/${selectedPoint.photo}`}
+                  src={getUploadUrl(selectedPoint.photo)}
                   alt="Issue preview"
                   className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
                   onError={(e) => {
