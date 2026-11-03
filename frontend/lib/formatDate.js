@@ -57,3 +57,27 @@ export function formatRealDateOnly(dateStr) {
     return dateStr.slice(0, 10);
   }
 }
+
+/**
+ * Checks whether a given datetime string is from today.
+ */
+export function isToday(dateStr) {
+  if (!dateStr) return false;
+  try {
+    const cleanStr = dateStr.replace(" ", "T");
+    const d = new Date(cleanStr);
+    if (isNaN(d.getTime())) {
+      // String fallback matching YYYY-MM-DD
+      const todayISO = new Date().toISOString().slice(0, 10);
+      return dateStr.startsWith(todayISO);
+    }
+    const today = new Date();
+    return (
+      d.getDate() === today.getDate() &&
+      d.getMonth() === today.getMonth() &&
+      d.getFullYear() === today.getFullYear()
+    );
+  } catch (e) {
+    return false;
+  }
+}

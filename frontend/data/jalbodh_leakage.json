@@ -1,0 +1,26 @@
+[
+  {
+    "sensor_id": "SEN-DELHI-01",
+    "location": "Zone 4 - Connaught Place Pipeline",
+    "flow_rate_m3h": 412.5,
+    "pressure_bar": 2.1,
+    "leak_probability": 0.95,
+    "event_type": "Pipe Leak"
+  },
+  {
+    "sensor_id": "SEN-MUM-08",
+    "location": "Bandra Main Trunk",
+    "flow_rate_m3h": 850.0,
+    "pressure_bar": 4.5,
+    "leak_probability": 0.05,
+    "event_type": "Normal"
+  },
+  {
+    "sensor_id": "SEN-AHM-03",
+    "location": "Sabarmati Distribution Line",
+    "flow_rate_m3h": 310.2,
+    "pressure_bar": 1.4,
+    "leak_probability": 0.88,
+    "event_type": "Pressure Surge"
+  }
+]

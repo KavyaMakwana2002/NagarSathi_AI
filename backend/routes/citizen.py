@@ -102,3 +102,24 @@ def get_citizen_complaints(mobile):
         "count": len(rows),
         "complaints": [complaint_to_dict(r) for r in rows]
     })
+
+
+@citizen_bp.route("/complaints/<complaint_id>", methods=["DELETE"])
+def delete_citizen_complaint(complaint_id):
+    clean_id = complaint_id.strip().upper()
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    cursor.execute("SELECT * FROM complaints WHERE complaint_id = ?", (clean_id,))
+    row = cursor.fetchone()
+    if not row:
+        conn.close()
+        return jsonify({"success": False, "error": "Complaint not found."}), 404
+
+    cursor.execute("DELETE FROM complaints WHERE complaint_id = ?", (clean_id,))
+    conn.commit()
+    conn.close()
+
+    return jsonify({
+        "success": True,
+        "message": f"Complaint #{clean_id} deleted successfully."
+    })

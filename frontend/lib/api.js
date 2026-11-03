@@ -30,6 +30,13 @@ export async function getComplaintById(id) {
   return response.json();
 }
 
+export async function deleteComplaint(complaintId) {
+  const response = await fetch(`${BASE_URL}/complaints/${encodeURIComponent(complaintId)}`, {
+    method: "DELETE",
+  });
+  return response.json();
+}
+
 export async function trackComplaints(query) {
   const response = await fetch(`${BASE_URL}/track/${encodeURIComponent(query)}`, {
     cache: "no-store",
@@ -110,3 +117,68 @@ export function getUploadUrl(filename) {
   if (filename.startsWith("http://") || filename.startsWith("https://")) return filename;
   return `${BASE_URL}/uploads/${filename}`;
 }
+
+import LOCAL_RESERVOIRS from "@/data/jalbodh_reservoirs.json";
+import LOCAL_GROUNDWATER from "@/data/jalbodh_groundwater.json";
+import LOCAL_LEAKAGE from "@/data/jalbodh_leakage.json";
+
+// =========================================================================
+// JALBODH AI (FORMERLY JAL DRISHTI) WATER INTELLIGENCE INTEGRATION
+// =========================================================================
+
+const JALBODH_BASE = "https://jaldrishti-theta.vercel.app/api/engines";
+
+// Default Fallback Datasets (Robust against network drops - Full 150 Dams)
+export const FALLBACK_RESERVOIRS = LOCAL_RESERVOIRS;
+export const FALLBACK_GROUNDWATER = LOCAL_GROUNDWATER;
+export const FALLBACK_LEAKAGE = LOCAL_LEAKAGE;
+
+export async function getJalBodhReservoirs() {
+  try {
+    if (typeof window !== "undefined") {
+      const res = await fetch(`${JALBODH_BASE}/reservoirs`, { signal: AbortSignal.timeout(3000) });
+      if (res.ok) {
+        const data = await res.json();
+        if (Array.isArray(data) && data.length > 0) return data;
+      }
+    }
+    return LOCAL_RESERVOIRS;
+  } catch (err) {
+    return LOCAL_RESERVOIRS;
+  }
+}
+
+export async function getJalBodhGroundwater() {
+  try {
+    if (typeof window !== "undefined") {
+      const res = await fetch(`${JALBODH_BASE}/groundwater`, { signal: AbortSignal.timeout(3000) });
+      if (res.ok) {
+        const data = await res.json();
+        if (Array.isArray(data) && data.length > 0) return data;
+      }
+    }
+    return LOCAL_GROUNDWATER;
+  } catch (err) {
+    return LOCAL_GROUNDWATER;
+  }
+}
+
+export async function getJalBodhLeakage() {
+  try {
+    if (typeof window !== "undefined") {
+      const res = await fetch(`${JALBODH_BASE}/leakage`, { signal: AbortSignal.timeout(3000) });
+      if (res.ok) {
+        const data = await res.json();
+        if (Array.isArray(data) && data.length > 0) return data;
+      }
+    }
+    return LOCAL_LEAKAGE;
+  } catch (err) {
+    return LOCAL_LEAKAGE;
+  }
+}
+
+// Aliases for backwards compatibility
+export const getJalDrishtiReservoirs = getJalBodhReservoirs;
+export const getJalDrishtiGroundwater = getJalBodhGroundwater;
+export const getJalDrishtiLeakage = getJalBodhLeakage;

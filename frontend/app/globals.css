@@ -51,6 +51,14 @@ html[data-theme="light"] header {
   box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.05) !important;
 }
 
+html.light header .brand-logo-text,
+html[data-theme="light"] header .brand-logo-text {
+  background: linear-gradient(to right, #0f172a, #1e3a8a, #0284c7) !important;
+  -webkit-background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  color: #0f172a !important;
+}
+
 html.light nav.fixed,
 html[data-theme="light"] nav.fixed {
   background-color: rgba(255, 255, 255, 0.95) !important;
@@ -71,11 +79,19 @@ html.light .bg-slate-900\/90,
 html.light .bg-slate-900\/80,
 html.light .bg-slate-900\/60,
 html.light .bg-slate-900\/40,
+html.light .bg-\[\#0a0a0c\],
+html.light .bg-\[\#050505\],
+html.light .bg-zinc-900,
+html.light .bg-zinc-900\/90,
 html[data-theme="light"] .bg-slate-900,
 html[data-theme="light"] .bg-slate-900\/90,
 html[data-theme="light"] .bg-slate-900\/80,
 html[data-theme="light"] .bg-slate-900\/60,
-html[data-theme="light"] .bg-slate-900\/40 {
+html[data-theme="light"] .bg-slate-900\/40,
+html[data-theme="light"] .bg-\[\#0a0a0c\],
+html[data-theme="light"] .bg-\[\#050505\],
+html[data-theme="light"] .bg-zinc-900,
+html[data-theme="light"] .bg-zinc-900\/90 {
   background-color: #ffffff !important;
   border-color: #e2e8f0 !important;
   color: #0f172a !important;
@@ -145,6 +161,52 @@ html.light .text-slate-100,
 html[data-theme="light"] .text-white,
 html[data-theme="light"] .text-slate-100 {
   color: #0f172a !important;
+}
+
+/* Explicit protection: Colored buttons and badges MUST always retain pure white text */
+html.light button.bg-blue-600,
+html.light button.bg-blue-700,
+html.light button.bg-cyan-600,
+html.light button.bg-red-600,
+html.light button.bg-emerald-600,
+html.light button.bg-emerald-700,
+html.light button.bg-indigo-600,
+html.light a.bg-blue-600,
+html.light a.bg-blue-700,
+html.light a.bg-cyan-600,
+html.light a.bg-red-600,
+html.light a.bg-emerald-600,
+html.light a.bg-emerald-700,
+html.light a.bg-indigo-600,
+html.light [class*="bg-gradient-to"] .text-white,
+html.light button.bg-sky-600,
+html.light .bg-red-600,
+html.light .bg-sky-600,
+html.light .bg-blue-600,
+html.light .bg-cyan-600,
+html.light .bg-emerald-600,
+html[data-theme="light"] button.bg-blue-600,
+html[data-theme="light"] button.bg-blue-700,
+html[data-theme="light"] button.bg-cyan-600,
+html[data-theme="light"] button.bg-red-600,
+html[data-theme="light"] button.bg-emerald-600,
+html[data-theme="light"] button.bg-emerald-700,
+html[data-theme="light"] button.bg-indigo-600,
+html[data-theme="light"] a.bg-blue-600,
+html[data-theme="light"] a.bg-blue-700,
+html[data-theme="light"] a.bg-cyan-600,
+html[data-theme="light"] a.bg-red-600,
+html[data-theme="light"] a.bg-emerald-600,
+html[data-theme="light"] a.bg-emerald-700,
+html[data-theme="light"] a.bg-indigo-600,
+html[data-theme="light"] [class*="bg-gradient-to"] .text-white,
+html[data-theme="light"] button.bg-sky-600,
+html[data-theme="light"] .bg-red-600,
+html[data-theme="light"] .bg-sky-600,
+html[data-theme="light"] .bg-blue-600,
+html[data-theme="light"] .bg-cyan-600,
+html[data-theme="light"] .bg-emerald-600 {
+  color: #ffffff !important;
 }
 
 html.light .text-slate-200,

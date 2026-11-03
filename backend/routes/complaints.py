@@ -2,6 +2,7 @@ from flask import Blueprint, request, jsonify, send_from_directory
 import uuid
 import os
 import random
+from datetime import datetime
 from config import Config
 from database import get_db_connection
 from models import complaint_to_dict
@@ -112,7 +113,8 @@ def submit_complaint():
         prefix = "NS-WA" if source == "WhatsApp" else "NS-"
         complaint_id = prefix + uuid.uuid4().hex[:5].upper()
 
-        # Step 5: Insert into SQLite Database
+        # Step 5: Insert into SQLite Database with exact current local timestamp
+        now_str = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         conn = get_db_connection()
         cursor = conn.cursor()
         cursor.execute("""
@@ -121,14 +123,14 @@ def submit_complaint():
                 original_language, translated_text, photo, priority,
                 ai_confidence, ai_reasoning, status, is_duplicate,
                 duplicate_parent_id, upvotes_count, latitude, longitude,
-                source, vision_verified, vision_tags
-            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                source, vision_verified, vision_tags, created_at, updated_at
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
         """, (
             complaint_id, name, mobile, area, final_category, description,
             original_lang, translated_text, photo_name, priority,
             ai_confidence, ai_reasoning, "Pending", 1 if is_dup else 0,
             parent_id, 1, lat, lng,
-            source, vision_verified, vision_tags
+            source, vision_verified, vision_tags, now_str, now_str
         ))
         conn.commit()
         conn.close()
@@ -326,6 +328,28 @@ def track_complaint(query):
         "success": True,
         "count": len(rows),
         "complaints": [complaint_to_dict(r) for r in rows]
+    })
+
+
+@complaints_bp.route("/complaints/<complaint_id>", methods=["DELETE"])
+def delete_complaint(complaint_id):
+    """Deletes a civic complaint ticket."""
+    clean_id = complaint_id.strip().upper()
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    cursor.execute("SELECT * FROM complaints WHERE complaint_id = ?", (clean_id,))
+    row = cursor.fetchone()
+    if not row:
+        conn.close()
+        return jsonify({"success": False, "error": "Complaint not found."}), 404
+
+    cursor.execute("DELETE FROM complaints WHERE complaint_id = ?", (clean_id,))
+    conn.commit()
+    conn.close()
+
+    return jsonify({
+        "success": True,
+        "message": f"Complaint #{clean_id} deleted successfully."
     })
 
 

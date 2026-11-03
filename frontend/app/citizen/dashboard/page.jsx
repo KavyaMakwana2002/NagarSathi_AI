@@ -5,9 +5,9 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { 
   User, PlusCircle, Clock, CheckCircle2, Hammer, MapPin, 
-  Calendar, RefreshCw, LogOut, Sparkles, AlertCircle, ArrowRight 
+  Calendar, RefreshCw, LogOut, Sparkles, AlertCircle, ArrowRight, Trash2 
 } from "lucide-react";
-import { getCitizenComplaints } from "@/lib/api";
+import { getCitizenComplaints, deleteComplaint } from "@/lib/api";
 import StatusBadge from "@/components/StatusBadge";
 import { PRIORITY_CONFIG } from "@/lib/constants";
 import { useSettings } from "@/context/SettingsContext";
@@ -20,6 +20,7 @@ export default function CitizenDashboardPage() {
   const [citizen, setCitizen] = useState(null);
   const [complaints, setComplaints] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [deletingId, setDeletingId] = useState(null);
 
   useEffect(() => {
     const userStr = localStorage.getItem("ns_citizen_user");
@@ -54,6 +55,30 @@ export default function CitizenDashboardPage() {
     localStorage.removeItem("ns_citizen_token");
     localStorage.removeItem("ns_citizen_user");
     router.push("/login");
+  };
+
+  const handleDeleteComplaint = async (complaintId) => {
+    const confirmMsg = lang === "gu"
+      ? `શું તમે ખરેખર ફરિયાદ #${complaintId} ડિલીટ કરવા માંગો છો? આ ક્રિયા પાછી વાળી શકાશે નહીં.`
+      : `Are you sure you want to delete complaint #${complaintId}? This action cannot be undone.`;
+    
+    if (!window.confirm(confirmMsg)) return;
+
+    setDeletingId(complaintId);
+    try {
+      const res = await deleteComplaint(complaintId);
+      if (res.success) {
+        setComplaints(prev => prev.filter(c => c.complaint_id !== complaintId));
+        alert(lang === "gu" ? "ફરિયાદ સફળતાપૂર્વક ડિલીટ કરવામાં આવી છે." : "Complaint deleted successfully.");
+      } else {
+        alert(res.error || (lang === "gu" ? "ફરિયાદ ડિલીટ કરવામાં સમસ્યા આવી." : "Failed to delete complaint."));
+      }
+    } catch (err) {
+      console.error("Delete complaint error:", err);
+      alert(lang === "gu" ? "સર્વર સાથે કનેક્ટ થવામાં સમસ્યા આવી." : "Could not connect to backend server.");
+    } finally {
+      setDeletingId(null);
+    }
   };
 
   const pendingCount = complaints.filter(c => c.status === "Pending").length;
@@ -229,15 +254,28 @@ export default function CitizenDashboardPage() {
                       </h3>
                     </div>
 
-                    <div className="flex items-center gap-3">
+                    <div className="flex items-center gap-2">
                       <StatusBadge status={c.status} />
+                      
                       <Link
                         href={`/track?id=${c.complaint_id}`}
                         className="p-2 rounded-xl bg-slate-800 hover:bg-cyan-500/20 text-cyan-400 text-xs font-semibold border border-slate-700 flex items-center gap-1 transition"
+                        title={lang === "gu" ? "ફરિયાદ ટ્રેક કરો" : "Track Complaint"}
                       >
-                        <span>{lang === "gu" ? "ટ્રેક કરો" : "Track"}</span>
+                        <span>{lang === "gu" ? "ટ્રેક" : "Track"}</span>
                         <ArrowRight className="w-3.5 h-3.5" />
                       </Link>
+
+                      <button
+                        type="button"
+                        onClick={() => handleDeleteComplaint(c.complaint_id)}
+                        disabled={deletingId === c.complaint_id}
+                        className="p-2 rounded-xl bg-red-500/10 hover:bg-red-500/25 text-red-400 hover:text-red-300 border border-red-500/30 text-xs font-semibold flex items-center gap-1 transition active:scale-95 cursor-pointer disabled:opacity-50"
+                        title={lang === "gu" ? "ફરિયાદ રદ / ડિલીટ કરો" : "Delete Complaint"}
+                      >
+                        <Trash2 className={`w-3.5 h-3.5 ${deletingId === c.complaint_id ? "animate-spin" : ""}`} />
+                        <span className="hidden sm:inline">{lang === "gu" ? "ડિલીટ" : "Delete"}</span>
+                      </button>
                     </div>
                   </div>
 

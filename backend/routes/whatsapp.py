@@ -1,6 +1,7 @@
 from flask import Blueprint, request, jsonify
 import uuid
 import re
+from datetime import datetime
 from database import get_db_connection
 from models import complaint_to_dict
 from services.ai_service import analyze_complaint_with_gemini, verify_civic_image_with_vision
@@ -81,6 +82,7 @@ def handle_whatsapp_message():
         is_dup, parent_id, _ = find_duplicate_complaint(area, category, text)
 
         ticket_id = "NS-WA" + uuid.uuid4().hex[:4].upper()
+        now_str = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
         conn = get_db_connection()
         cursor = conn.cursor()
@@ -90,14 +92,14 @@ def handle_whatsapp_message():
                 original_language, translated_text, photo, priority,
                 ai_confidence, ai_reasoning, status, is_duplicate,
                 duplicate_parent_id, upvotes_count, latitude, longitude,
-                source, vision_verified, vision_tags
-            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                source, vision_verified, vision_tags, created_at, updated_at
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
         """, (
             ticket_id, sender_name, sender, area, category, text,
             original_lang, translated_text, photo_name, priority,
             confidence, reasoning, "Pending", 1 if is_dup else 0,
             parent_id, 1, lat, lng,
-            "WhatsApp", vision_verified, vision_tags
+            "WhatsApp", vision_verified, vision_tags, now_str, now_str
         ))
         conn.commit()
         conn.close()

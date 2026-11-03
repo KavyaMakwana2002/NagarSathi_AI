@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { 
   Sparkles, PlusCircle, Search, ShieldCheck, CheckCircle2, 
-  MapPin, AlertTriangle, ArrowRight, Activity, Cpu, Layers, User
+  MapPin, AlertTriangle, ArrowRight, Activity, Cpu, Layers, User, Droplets, Waves
 } from "lucide-react";
 import { CIVIC_CATEGORIES } from "@/lib/constants";
 import { useSettings } from "@/context/SettingsContext";
@@ -165,6 +165,74 @@ export default function RootPage() {
             </div>
             <div className="text-2xl font-black text-amber-400">340+</div>
             <p className="text-[11px] text-slate-400 mt-0.5">{t("home", "statDuplicatesSub")}</p>
+          </div>
+        </div>
+      </section>
+
+      {/* =========================================================================
+          JALBODH AI CITIZEN WATER FEED (જળ સેવા • વોર્ડ વોટર સ્ટેટસ)
+         ========================================================================= */}
+      <section className="max-w-6xl mx-auto px-4 sm:px-6">
+        <div className="p-6 sm:p-7 rounded-3xl bg-gradient-to-r from-blue-950/60 via-slate-900 to-slate-900 border border-cyan-500/30 relative overflow-hidden shadow-2xl space-y-4">
+          <div className="absolute -top-12 -right-12 w-36 h-36 bg-cyan-500/10 rounded-full blur-2xl pointer-events-none" />
+
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-800 pb-3.5">
+            <div className="flex items-center gap-2.5">
+              <div className="w-10 h-10 rounded-2xl bg-gradient-to-tr from-blue-600 to-cyan-500 flex items-center justify-center text-white shadow-md shadow-cyan-500/20">
+                <Droplets className="w-5 h-5 animate-pulse" />
+              </div>
+              <div>
+                <span className="text-[10px] font-bold text-cyan-400 uppercase tracking-wider font-mono">
+                  JALBODH AI • જળ સેવા (LIVE WATER FEED)
+                </span>
+                <h3 className="text-lg font-black text-white flex items-center gap-2">
+                  <span>{currentUser?.area || "નવરંગપુરા (વોર્ડ ૭)"} વોટર સ્ટેટસ</span>
+                </h3>
+              </div>
+            </div>
+
+            <div className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-emerald-950/70 border border-emerald-800/60 text-emerald-400 text-xs font-bold shadow-sm">
+              <CheckCircle2 className="w-3.5 h-3.5" />
+              <span>આજનો સપ્લાય: સવારે ૬:૩૦ થી ૮:૦૦ AM (નોર્મલ પ્રેશર)</span>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-3 text-xs">
+            <div className="p-3.5 rounded-2xl bg-slate-950/70 border border-slate-800/80">
+              <span className="text-slate-400 text-[11px] block mb-0.5">પાઇપ પ્રેશર & ક્વોલિટી:</span>
+              <span className="font-black text-white text-sm">4.2 Bar • શુદ્ધ પીવાલાયક (99.4%)</span>
+            </div>
+
+            <div className="p-3.5 rounded-2xl bg-slate-950/70 border border-slate-800/80">
+              <span className="text-slate-400 text-[11px] block mb-0.5">જળાશય સ્ત્રોત (CWC):</span>
+              <span className="font-black text-cyan-400 text-sm">સરદાર સરોવર: ૬૪.૨% સંગ્રહ</span>
+            </div>
+
+            <div className="p-3.5 rounded-2xl bg-slate-950/70 border border-slate-800/80">
+              <span className="text-slate-400 text-[11px] block mb-0.5">૪-અઠવાડિયાની અછત ચેતવણી:</span>
+              <span className="font-bold text-emerald-400 text-sm">✅ સુરક્ષિત (પર્યાપ્ત જળસ્તર)</span>
+            </div>
+          </div>
+
+          <div className="flex flex-col sm:flex-row items-center justify-between gap-3 pt-1">
+            <p className="text-xs text-slate-300">
+              💡 <span className="font-semibold text-white">જળ જાગૃતિ:</span> રસ્તા પર પાઇપલાઇન લીકેજ જણાય તો ફોટો પાડીને તરત રિપોર્ટ કરો.
+            </p>
+
+            <div className="flex items-center gap-2 w-full sm:w-auto">
+              <Link
+                href="/complaint?category=Water%20Supply"
+                className="w-full sm:w-auto px-4 py-2 rounded-xl bg-red-600 hover:bg-red-500 text-white font-bold text-xs shadow-md shadow-red-500/20 active:scale-95 transition text-center"
+              >
+                🚨 પાઇપ લીકેજ રિપોર્ટ કરો
+              </Link>
+              <Link
+                href="/water"
+                className="w-full sm:w-auto px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-cyan-300 border border-slate-700 font-bold text-xs active:scale-95 transition text-center"
+              >
+                વિગતવાર જુઓ →
+              </Link>
+            </div>
           </div>
         </div>
       </section>

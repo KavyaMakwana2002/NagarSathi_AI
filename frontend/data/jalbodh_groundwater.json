@@ -1,0 +1,34 @@
+[
+  {
+    "district_id": "GW-01",
+    "district_name": "Mehsana",
+    "state": "Gujarat",
+    "water_table_depth_m": 145.2,
+    "classification": "Critical",
+    "risk_probability": 0.92
+  },
+  {
+    "district_id": "GW-02",
+    "district_name": "Bathinda",
+    "state": "Punjab",
+    "water_table_depth_m": 38.4,
+    "classification": "Stable",
+    "risk_probability": 0.3
+  },
+  {
+    "district_id": "GW-03",
+    "district_name": "Coimbatore",
+    "state": "Tamil Nadu",
+    "water_table_depth_m": 18.2,
+    "classification": "Rising",
+    "risk_probability": 0.12
+  },
+  {
+    "district_id": "GW-04",
+    "district_name": "Kurnool",
+    "state": "Andhra Pradesh",
+    "water_table_depth_m": 22.1,
+    "classification": "Stable",
+    "risk_probability": 0.3
+  }
+]

@@ -12,7 +12,7 @@ import StatusBadge from "@/components/StatusBadge";
 import BeforeAfterSlider from "@/components/BeforeAfterSlider";
 import { PRIORITY_CONFIG } from "@/lib/constants";
 import { useSettings } from "@/context/SettingsContext";
-import { formatRealDateTime } from "@/lib/formatDate";
+import { formatRealDateTime, isToday } from "@/lib/formatDate";
 
 export default function AdminDashboardPage() {
   const router = useRouter();
@@ -134,10 +134,14 @@ export default function AdminDashboardPage() {
     router.push("/admin/login");
   };
 
+  const todayCount = complaints.filter((c) => isToday(c.created_at)).length;
+
   const filteredComplaints = complaints.filter((c) => {
     const matchesStatus =
       filterStatus === "All"
         ? true
+        : filterStatus === "Today"
+        ? isToday(c.created_at)
         : filterStatus === "Urgent"
         ? c.priority === "High" && c.status !== "Resolved"
         : c.status === filterStatus;
@@ -174,6 +178,14 @@ export default function AdminDashboardPage() {
           >
             <span>🗺️</span>
             <span>GIS Heatmap</span>
+          </Link>
+
+          <Link
+            href="/admin/jaldrishti"
+            className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-gradient-to-r from-blue-600 to-cyan-500 hover:from-blue-500 hover:to-cyan-400 text-white text-xs font-bold shadow-md shadow-cyan-500/20 transition active:scale-95"
+          >
+            <span>💧</span>
+            <span>JalBodh AI Intel</span>
           </Link>
 
           <Link
@@ -257,25 +269,36 @@ export default function AdminDashboardPage() {
         
         {/* Status Filters */}
         <div className="flex items-center gap-1.5 overflow-x-auto pb-1 sm:pb-0 scrollbar-none">
-          {["All", "Urgent", "Pending", "In Progress", "Resolved"].map((tab) => (
+          {["All", "Today", "Urgent", "Pending", "In Progress", "Resolved"].map((tab) => (
             <button
               key={tab}
               onClick={() => setFilterStatus(tab)}
-              className={`px-3.5 py-1.5 rounded-xl text-xs font-bold transition shrink-0 ${
+              className={`px-3.5 py-1.5 rounded-xl text-xs font-bold transition shrink-0 flex items-center gap-1.5 ${
                 filterStatus === tab
                   ? "bg-cyan-500 text-slate-950 shadow-md shadow-cyan-500/20"
                   : "bg-slate-900 hover:bg-slate-800 text-slate-300 border border-slate-800"
               }`}
             >
-              {tab === "All"
-                ? t("admin", "filterAll")
-                : tab === "Urgent"
-                ? t("admin", "filterUrgent")
-                : tab === "Pending"
-                ? t("admin", "filterPending")
-                : tab === "In Progress"
-                ? t("admin", "filterInProgress")
-                : t("admin", "filterResolved")}
+              <span>
+                {tab === "All"
+                  ? t("admin", "filterAll")
+                  : tab === "Today"
+                  ? (t("admin", "filterToday") || (lang === "gu" ? "આજની ફરિયાદો (Today)" : "Today's Complaints"))
+                  : tab === "Urgent"
+                  ? t("admin", "filterUrgent")
+                  : tab === "Pending"
+                  ? t("admin", "filterPending")
+                  : tab === "In Progress"
+                  ? t("admin", "filterInProgress")
+                  : t("admin", "filterResolved")}
+              </span>
+              {tab === "Today" && (
+                <span className={`text-[10px] font-black px-1.5 py-0.5 rounded-full ${
+                  filterStatus === "Today" ? "bg-slate-950 text-cyan-300" : "bg-cyan-500/20 text-cyan-300 border border-cyan-500/30"
+                }`}>
+                  {todayCount}
+                </span>
+              )}
             </button>
           ))}
         </div>
