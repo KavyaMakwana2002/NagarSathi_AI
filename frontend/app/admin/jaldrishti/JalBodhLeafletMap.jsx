@@ -62,6 +62,8 @@ export default function JalBodhLeafletMap({
   const mapInstanceRef = useRef(null);
   const tileLayerRef = useRef(null);
   const markersRef = useRef([]);
+  const markersMapRef = useRef({});
+  const prevSelectedIdRef = useRef(null);
 
   const [activeLayer, setActiveLayer] = useState("satellite"); // Default to Google Satellite (Matching Screenshot 1)
   const [showLayerMenu, setShowLayerMenu] = useState(false);
@@ -118,7 +120,7 @@ export default function JalBodhLeafletMap({
     tileLayerRef.current = newTile;
   }, [activeLayer]);
 
-  // Update Markers when reservoirs, selection, or language changes
+  // Initialize / Update Markers ONCE when dataset, language, or theme changes
   useEffect(() => {
     const map = mapInstanceRef.current;
     if (!map) return;
@@ -126,6 +128,7 @@ export default function JalBodhLeafletMap({
     // Clear previous markers
     markersRef.current.forEach((m) => m.remove());
     markersRef.current = [];
+    markersMapRef.current = {};
 
     reservoirs.forEach((res) => {
       if (!res.latitude || !res.longitude) return;
@@ -222,20 +225,50 @@ export default function JalBodhLeafletMap({
       });
 
       markersRef.current.push(marker);
+      markersMapRef.current[res.reservoir_id] = marker;
     });
-  }, [reservoirs, selectedReservoir, lang, onSelectReservoir]);
+  }, [reservoirs, lang, isDark, onSelectReservoir]);
 
-  // Center map on selected reservoir
+  // Ultra-fast Selection Highlight & Smooth Pan (Zero lag, zero DOM recreation)
   useEffect(() => {
     if (!selectedReservoir || !mapInstanceRef.current) return;
+    const curId = selectedReservoir.reservoir_id;
+
+    // Reset previous selected marker style
+    if (prevSelectedIdRef.current && prevSelectedIdRef.current !== curId) {
+      const prevMarker = markersMapRef.current[prevSelectedIdRef.current];
+      if (prevMarker) {
+        const prevRes = reservoirs.find(r => r.reservoir_id === prevSelectedIdRef.current);
+        const storage = prevRes?.current_storage_pct ?? 50;
+        const strokeColor = storage < 25 ? "#b91c1c" : storage <= 40 ? "#d97706" : "#0891b2";
+        prevMarker.setStyle({
+          radius: 6,
+          weight: 1.5,
+          color: strokeColor,
+        });
+      }
+    }
+
+    // Highlight active selected marker
+    const curMarker = markersMapRef.current[curId];
+    if (curMarker) {
+      curMarker.setStyle({
+        radius: 10,
+        weight: 3,
+        color: "#ffffff",
+      });
+      curMarker.bringToFront();
+    }
+    prevSelectedIdRef.current = curId;
+
+    // Snappy, non-blocking pan
     if (selectedReservoir.latitude && selectedReservoir.longitude) {
-      mapInstanceRef.current.flyTo(
+      mapInstanceRef.current.panTo(
         [selectedReservoir.latitude, selectedReservoir.longitude],
-        6.5,
-        { duration: 1.2 }
+        { animate: true, duration: 0.4 }
       );
     }
-  }, [selectedReservoir]);
+  }, [selectedReservoir, reservoirs]);
 
   // Handle Resize
   useEffect(() => {

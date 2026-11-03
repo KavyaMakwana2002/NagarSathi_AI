@@ -1,6 +1,6 @@
 "use client";
 
-import React, { createContext, useContext, useState, useEffect } from "react";
+import React, { createContext, useContext, useState, useEffect, useCallback, useMemo } from "react";
 import { TRANSLATIONS } from "@/lib/translations";
 
 const SettingsContext = createContext(null);
@@ -170,39 +170,39 @@ export function SettingsProvider({ children }) {
   const openSettings = () => setIsSettingsOpen(true);
   const closeSettings = () => setIsSettingsOpen(false);
 
-  // Translation helper with hydration safety
-  const t = (section, key) => {
+  // Translation helper with hydration safety (memoized to eliminate unnecessary component re-renders)
+  const t = useCallback((section, key) => {
     const activeLang = mounted ? lang : "gu";
     const activeDict = TRANSLATIONS[activeLang] || TRANSLATIONS.gu;
     if (section && key) {
       return activeDict[section]?.[key] || key;
     }
     return key;
-  };
+  }, [mounted, lang]);
+
+  const contextValue = useMemo(() => ({
+    lang,
+    setLang,
+    theme,
+    setTheme,
+    fontSize,
+    setFontSize,
+    sound,
+    setSound,
+    isSettingsOpen,
+    openSettings,
+    closeSettings,
+    t,
+    mounted,
+    authRole,
+    currentUser,
+    loginAsCitizen,
+    loginAsAdmin,
+    logout
+  }), [lang, theme, fontSize, sound, isSettingsOpen, mounted, authRole, currentUser, t]);
 
   return (
-    <SettingsContext.Provider
-      value={{
-        lang,
-        setLang,
-        theme,
-        setTheme,
-        fontSize,
-        setFontSize,
-        sound,
-        setSound,
-        isSettingsOpen,
-        openSettings,
-        closeSettings,
-        t,
-        mounted,
-        authRole,
-        currentUser,
-        loginAsCitizen,
-        loginAsAdmin,
-        logout
-      }}
-    >
+    <SettingsContext.Provider value={contextValue}>
       {children}
     </SettingsContext.Provider>
   );

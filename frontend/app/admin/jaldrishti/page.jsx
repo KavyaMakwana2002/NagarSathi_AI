@@ -1090,7 +1090,7 @@ export default function AdminJalBodhPage() {
                         key={res.reservoir_id}
                         type="button"
                         onClick={() => handleInspectFromRiskDock(res)}
-                        className={`text-left p-3 rounded-2xl border transition cursor-pointer flex items-center justify-between group ${
+                        className={`text-left p-3 rounded-2xl border transition cursor-pointer flex items-center justify-between group fast-render-card ${
                           isDark
                             ? "bg-[#0a0a0c] hover:bg-zinc-900/90 border-zinc-800 hover:border-cyan-500/50"
                             : "bg-white hover:bg-slate-50 border-slate-200 hover:border-sky-400 shadow-xs"

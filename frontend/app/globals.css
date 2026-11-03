@@ -27,7 +27,7 @@ body {
   background-color: var(--bg-page);
   color: var(--text-main);
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans Gujarati", sans-serif;
-  transition: background-color 0.25s ease, color 0.25s ease, font-size 0.25s ease;
+  transition: background-color 0.15s ease;
   overflow-x: hidden;
   min-height: 100vh;
 }
@@ -286,6 +286,18 @@ html[data-theme="light"] .bg-cyan-950\/20 {
   border-radius: 50%;
   animation: map-radar-pulse 2s cubic-bezier(0, 0, 0.2, 1) infinite;
   pointer-events: none;
+  will-change: transform, opacity;
+  transform: translateZ(0);
+}
+
+/* Performance optimizations for fast, non-blocking rendering */
+.fast-render-card {
+  content-visibility: auto;
+  contain-intrinsic-size: 0 42px;
+}
+
+button:active {
+  transform: scale(0.98);
 }
 
 .map-glass-panel {

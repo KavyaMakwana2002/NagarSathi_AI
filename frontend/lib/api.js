@@ -2,25 +2,58 @@ const rawUrl = process.env.NEXT_PUBLIC_API_URL || "https://nagarsathi-ai.onrende
 const cleanUrl = rawUrl.replace(/\/+$/, "");
 export const BASE_URL = cleanUrl.endsWith("/api") ? cleanUrl : `${cleanUrl}/api`;
 
+// In-memory response cache to ensure instantaneous UI clicks
+const _memCache = {
+  complaints: {},
+  complaintsTs: 0,
+  stats: null,
+  statsTs: 0,
+  citizenComplaints: {},
+  citizenComplaintsTs: 0,
+};
+
 export async function submitComplaint(formData) {
+  _memCache.complaints = {}; // Invalidate cache on new submission
+  _memCache.stats = null;
   const response = await fetch(`${BASE_URL}/complaints`, {
     method: "POST",
-    body: formData, // FormData handles multipart file + text
+    body: formData,
   });
   return response.json();
 }
 
-export async function getComplaints(filters = {}) {
+export async function getComplaints(filters = {}, forceRefresh = false) {
   const params = new URLSearchParams();
   if (filters.status) params.append("status", filters.status);
   if (filters.category) params.append("category", filters.category);
   if (filters.priority) params.append("priority", filters.priority);
   if (filters.area) params.append("area", filters.area);
 
-  const response = await fetch(`${BASE_URL}/complaints?${params.toString()}`, {
-    cache: "no-store",
-  });
-  return response.json();
+  const key = params.toString() || "all";
+  const now = Date.now();
+
+  // Return from micro-cache instantly (within 6 seconds) for fast snappy UI
+  if (!forceRefresh && _memCache.complaints[key] && (now - _memCache.complaintsTs < 6000)) {
+    return _memCache.complaints[key];
+  }
+
+  try {
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 6000);
+    const response = await fetch(`${BASE_URL}/complaints?${params.toString()}`, {
+      cache: "no-store",
+      signal: controller.signal,
+    });
+    clearTimeout(timeout);
+    if (!response.ok) throw new Error("HTTP error");
+    const data = await response.json();
+    _memCache.complaints[key] = data;
+    _memCache.complaintsTs = now;
+    return data;
+  } catch (err) {
+    if (_memCache.complaints[key]) return _memCache.complaints[key];
+    return { success: false, count: 0, complaints: [] };
+  }
 }
 
 export async function getComplaintById(id) {
@@ -31,6 +64,8 @@ export async function getComplaintById(id) {
 }
 
 export async function deleteComplaint(complaintId) {
+  _memCache.complaints = {}; // Invalidate cache on delete
+  _memCache.stats = null;
   const response = await fetch(`${BASE_URL}/complaints/${encodeURIComponent(complaintId)}`, {
     method: "DELETE",
   });
@@ -54,6 +89,8 @@ export async function adminLogin(username, password) {
 }
 
 export async function updateComplaintStatus(complaintId, status, remarks = "") {
+  _memCache.complaints = {}; // Invalidate cache on status update
+  _memCache.stats = null;
   const response = await fetch(`${BASE_URL}/admin/complaints/${complaintId}/status`, {
     method: "PUT",
     headers: { "Content-Type": "application/json" },
@@ -62,11 +99,29 @@ export async function updateComplaintStatus(complaintId, status, remarks = "") {
   return response.json();
 }
 
-export async function getAdminStats() {
-  const response = await fetch(`${BASE_URL}/admin/stats`, {
-    cache: "no-store",
-  });
-  return response.json();
+export async function getAdminStats(forceRefresh = false) {
+  const now = Date.now();
+  if (!forceRefresh && _memCache.stats && (now - _memCache.statsTs < 6000)) {
+    return _memCache.stats;
+  }
+
+  try {
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 6000);
+    const response = await fetch(`${BASE_URL}/admin/stats`, {
+      cache: "no-store",
+      signal: controller.signal,
+    });
+    clearTimeout(timeout);
+    if (!response.ok) throw new Error("HTTP error");
+    const data = await response.json();
+    _memCache.stats = data;
+    _memCache.statsTs = now;
+    return data;
+  } catch (err) {
+    if (_memCache.stats) return _memCache.stats;
+    return { success: false, metrics: null };
+  }
 }
 
 // Citizen Authentication & Dashboard
@@ -88,11 +143,30 @@ export async function citizenRegister(name, mobile, area, password = "") {
   return response.json();
 }
 
-export async function getCitizenComplaints(mobile) {
-  const response = await fetch(`${BASE_URL}/citizen/complaints/${encodeURIComponent(mobile)}`, {
-    cache: "no-store",
-  });
-  return response.json();
+export async function getCitizenComplaints(mobile, forceRefresh = false) {
+  const key = mobile || "citizen";
+  const now = Date.now();
+  if (!forceRefresh && _memCache.citizenComplaints[key] && (now - _memCache.citizenComplaintsTs < 6000)) {
+    return _memCache.citizenComplaints[key];
+  }
+
+  try {
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 6000);
+    const response = await fetch(`${BASE_URL}/citizen/complaints/${encodeURIComponent(mobile)}`, {
+      cache: "no-store",
+      signal: controller.signal,
+    });
+    clearTimeout(timeout);
+    if (!response.ok) throw new Error("HTTP error");
+    const data = await response.json();
+    _memCache.citizenComplaints[key] = data;
+    _memCache.citizenComplaintsTs = now;
+    return data;
+  } catch (err) {
+    if (_memCache.citizenComplaints[key]) return _memCache.citizenComplaints[key];
+    return { success: false, count: 0, complaints: [] };
+  }
 }
 
 export async function verifyPhoto(file, category) {
@@ -134,48 +208,15 @@ export const FALLBACK_GROUNDWATER = LOCAL_GROUNDWATER;
 export const FALLBACK_LEAKAGE = LOCAL_LEAKAGE;
 
 export async function getJalBodhReservoirs() {
-  try {
-    if (typeof window !== "undefined") {
-      const res = await fetch(`${JALBODH_BASE}/reservoirs`, { signal: AbortSignal.timeout(3000) });
-      if (res.ok) {
-        const data = await res.json();
-        if (Array.isArray(data) && data.length > 0) return data;
-      }
-    }
-    return LOCAL_RESERVOIRS;
-  } catch (err) {
-    return LOCAL_RESERVOIRS;
-  }
+  return LOCAL_RESERVOIRS;
 }
 
 export async function getJalBodhGroundwater() {
-  try {
-    if (typeof window !== "undefined") {
-      const res = await fetch(`${JALBODH_BASE}/groundwater`, { signal: AbortSignal.timeout(3000) });
-      if (res.ok) {
-        const data = await res.json();
-        if (Array.isArray(data) && data.length > 0) return data;
-      }
-    }
-    return LOCAL_GROUNDWATER;
-  } catch (err) {
-    return LOCAL_GROUNDWATER;
-  }
+  return LOCAL_GROUNDWATER;
 }
 
 export async function getJalBodhLeakage() {
-  try {
-    if (typeof window !== "undefined") {
-      const res = await fetch(`${JALBODH_BASE}/leakage`, { signal: AbortSignal.timeout(3000) });
-      if (res.ok) {
-        const data = await res.json();
-        if (Array.isArray(data) && data.length > 0) return data;
-      }
-    }
-    return LOCAL_LEAKAGE;
-  } catch (err) {
-    return LOCAL_LEAKAGE;
-  }
+  return LOCAL_LEAKAGE;
 }
 
 // Aliases for backwards compatibility
